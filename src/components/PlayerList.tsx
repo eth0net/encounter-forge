@@ -23,16 +23,18 @@ export function PlayerList({ players, setPlayers }: PlayersProps) {
       <Stack spacing={2} p={2}>
         <Typography variant='h5'>Players</Typography>
 
-        {players && players.map((player, index) =>
-          <Stack spacing={2} >
-            <PlayerItem
-              key={index}
-              player={player}
-              onUpdate={(player: Player) => updatePlayer(index, player)}
-              onDelete={() => deletePlayer(index)}
-            />
+        {players &&
+          <Stack spacing={2}>
+            {players.map((player, index) =>
+              <PlayerItem
+                key={index}
+                player={player}
+                onUpdate={(player: Player) => updatePlayer(index, player)}
+                onDelete={() => deletePlayer(index)}
+              />
+            )}
           </Stack>
-        )}
+        }
 
         {players?.length === 0 &&
           <Typography>No players</Typography>
