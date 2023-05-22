@@ -1,10 +1,11 @@
-import DeleteIcon from '@mui/icons-material/Delete';
+import ClearIcon from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Player from "../models/Player";
+import { Stack } from '@mui/material';
 
-export function PlayerItem({ player, onDelete, onUpdate }: PlayerProps) {
+
+export function PlayerItem({ player, onDelete, onUpdate }: PlayerItemProps) {
   const updateName = (event: React.ChangeEvent<HTMLInputElement>) => {
     onUpdate({ ...player, name: event.target.value });
   };
@@ -31,13 +32,13 @@ export function PlayerItem({ player, onDelete, onUpdate }: PlayerProps) {
       />
 
       <Button variant='outlined' color='error' onClick={onDelete}>
-        <DeleteIcon />
+        <ClearIcon />
       </Button>
     </Stack>
   );
 }
 
-export interface PlayerProps {
+export interface PlayerItemProps {
   player: Player;
   onDelete: () => void;
   onUpdate: (player: Player) => void;
