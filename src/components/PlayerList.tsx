@@ -1,6 +1,7 @@
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import Player from '../models/Player';
 import PlayerItem from './PlayerItem';
 
@@ -20,25 +21,26 @@ export function PlayerList({ players, setPlayers }: PlayersProps) {
   return (
     <Paper elevation={4}>
       <Stack spacing={2} p={2}>
+
         <Stack spacing={2}>
-          {players && players.map((player, index) => {
-            return (
-              <PlayerItem
-                key={index}
-                player={player}
-                onDelete={() => deletePlayer(index)}
-                onUpdate={(player: Player) => updatePlayer(index, player)}
-              />
-            );
-          })}
-          {!players || players.length === 0 && (
-            <div>No players</div>
+          {players && players.map((player, index) =>
+            <PlayerItem
+              key={index}
+              player={player}
+              onUpdate={(player: Player) => updatePlayer(index, player)}
+              onDelete={() => deletePlayer(index)}
+            />
           )}
+
+          {players?.length === 0 &&
+            <Typography>No players</Typography>
+          }
         </Stack>
 
         <Stack direction='row' justifyContent='center' mt={2}>
           <Button variant='contained' onClick={addPlayer}>Add Player</Button>
         </Stack>
+
       </Stack>
     </Paper>
   );

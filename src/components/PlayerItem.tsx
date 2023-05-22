@@ -6,15 +6,11 @@ import Player from "../models/Player";
 
 export function PlayerItem({ player, onDelete, onUpdate }: PlayerProps) {
   const updateName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newPlayer = { ...player };
-    newPlayer.name = event.target.value;
-    onUpdate(newPlayer);
+    onUpdate({ ...player, name: event.target.value });
   };
 
   const updateLevel = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newPlayer = { ...player };
-    newPlayer.level = parseInt(event.target.value);
-    onUpdate(newPlayer);
+    onUpdate({ ...player, level: parseInt(event.target.value) });
   };
 
   return (
@@ -25,6 +21,7 @@ export function PlayerItem({ player, onDelete, onUpdate }: PlayerProps) {
         value={player.name}
         onChange={updateName}
       />
+
       <TextField
         label='Level'
         type='number'
@@ -32,6 +29,7 @@ export function PlayerItem({ player, onDelete, onUpdate }: PlayerProps) {
         value={player.level}
         onChange={updateLevel}
       />
+
       <Button variant='outlined' color='error' onClick={onDelete}>
         <DeleteIcon />
       </Button>
