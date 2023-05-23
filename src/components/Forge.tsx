@@ -1,65 +1,24 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useMemo, useState } from 'react';
-import MonsterDictionary from '../models/MonsterDictionary';
-import Player from '../models/Player';
+import useEncounter from '../hooks/useEncounter';
+import useMonsterData from '../hooks/useMonsterData';
+import Library from '../models/Library';
 import EncounterTable from './EncounterTable';
-import PlayerList from './PlayerList';
+import PartyTable from './PartyTable';
 import StatsTable from './StatsTable';
-import ThresholdsTable from './ThresholdsTable';
 import d20 from '/src/assets/d20.png';
+import StatsRow from './StatsRow';
+import Party from '../models/Party';
 
-const defaultPlayers = [new Player(), new Player()];
-
-const monsterData: MonsterDictionary = {
-  'Goblin': {
-    name: 'Goblin',
-    hp: 0,
-    ac: 0,
-    init: 0,
-    cr: 0.25,
-    xp: 50
-  },
-  'Orc': {
-    name: 'Orc',
-    hp: 0,
-    ac: 0,
-    init: 0,
-    cr: 0.5,
-    xp: 100
-  },
-  'Ogre': {
-    name: 'Ogre',
-    hp: 0,
-    ac: 0,
-    init: 0,
-    cr: 2,
-    xp: 450
-  },
-  'Troll': {
-    name: 'Troll',
-    hp: 0,
-    ac: 0,
-    init: 0,
-    cr: 5,
-    xp: 1800
-  },
-  'Dragon': {
-    name: 'Dragon',
-    hp: 0,
-    ac: 0,
-    init: 0,
-    cr: 15,
-    xp: 13000
-  },
-};
+const defaultParty: Party = [{ level: 1, count: 1 }];
 
 export function Forge() {
-  const [players, setPlayers] = useState(defaultPlayers);
+  const monsterData = useMonsterData();
 
-  const [monsters] = useState([
-    { name: 'Goblin', count: 1 },
-  ]);
+  const [encounter] = useEncounter();
+
+  const [party, setParty] = useState(defaultParty);
 
   const thresholds = useMemo(() => {
     const xp_table = [
@@ -87,23 +46,23 @@ export function Forge() {
 
     const thresholds = { easy: 0, medium: 0, hard: 0, deadly: 0, daily: 0 };
 
-    players.forEach(player => {
-      const level = player.level - 1;
-      thresholds.easy += xp_table[level].easy ?? 0;
-      thresholds.medium += xp_table[level].medium ?? 0;
-      thresholds.hard += xp_table[level].hard ?? 0;
-      thresholds.deadly += xp_table[level].deadly ?? 0;
-      thresholds.daily += xp_table[level].daily ?? 0;
+    party.forEach(({ level, count }) => {
+      thresholds.easy += xp_table[level].easy * count ?? 0;
+      thresholds.medium += xp_table[level].medium * count ?? 0;
+      thresholds.hard += xp_table[level].hard * count ?? 0;
+      thresholds.deadly += xp_table[level].deadly * count ?? 0;
+      thresholds.daily += xp_table[level].daily * count ?? 0;
     });
 
     return thresholds;
-  }, [players]);
+  }, [party]);
+
+  const encounterItems = useMemo(() => Object.values(encounter), [encounter]);
 
   const stats = useMemo(() => {
     const stats = { difficulty: '', cr: 0, xp: 0, count: 0, each: 0 };
 
-    monsters.forEach(({ name, count }) => {
-      const { cr, xp } = monsterData[name];
+    encounterItems.forEach(({ monster: { cr, xp }, count }) => {
       stats.cr += cr * count;
       stats.xp += xp * count;
       stats.count += count;
@@ -139,10 +98,12 @@ export function Forge() {
       stats.difficulty = 'Deadly';
     }
 
-    stats.each = Math.ceil(stats.xp / players.length);
+    const partySize = party.reduce((total, { count }) => total + count, 0);
+
+    stats.each = Math.ceil(stats.xp / partySize);
 
     return stats;
-  }, [monsters, players, thresholds]);
+  }, [encounterItems, party, thresholds]);
 
   return (
     <>
@@ -151,17 +112,33 @@ export function Forge() {
         <Typography variant='h2'>Encounter Forge</Typography>
       </Stack>
 
-      <Stack direction='row' spacing={4} flexWrap='wrap' useFlexGap>
+      <Stack direction='row' spacing={4} useFlexGap justifyContent='center'>
         <Stack spacing={4}>
-          <PlayerList players={players} setPlayers={setPlayers} />
+          <PartyTable party={party} setParty={setParty} />
 
-          <ThresholdsTable thresholds={thresholds} />
+          <StatsTable title="Thresholds">
+            <StatsRow stat='Easy' data={thresholds.easy} />
+            <StatsRow stat='Medium' data={thresholds.medium} />
+            <StatsRow stat='Hard' data={thresholds.hard} />
+            <StatsRow stat='Deadly' data={thresholds.deadly} />
+            <StatsRow stat='Daily Limit' data={thresholds.daily} />
+          </StatsTable>
         </Stack>
 
         <Stack spacing={4}>
-          <EncounterTable monsters={monsters} monsterData={monsterData} />
+          <EncounterTable encounter={encounter} />
 
-          <StatsTable stats={stats} />
+          <StatsTable title="Stats">
+            <StatsRow stat='Difficulty' data={stats.difficulty} />
+            <StatsRow stat='Count' data={stats.count} />
+            <StatsRow stat='Total CR' data={stats.cr} />
+            <StatsRow stat='Total XP' data={stats.xp} />
+            <StatsRow stat='Player XP' data={stats.each} />
+          </StatsTable>
+        </Stack>
+
+        <Stack spacing={4}>
+          <Library monsterData={monsterData} />
         </Stack>
       </Stack>
     </>

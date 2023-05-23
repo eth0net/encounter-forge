@@ -1,8 +1,12 @@
+import Monster from "./Monster";
+
 export interface Encounter {
-  monsters: {
-    name: string;
-    count: number;
-  }[];
+  [key: string]: EncounterItem;
+}
+
+export interface EncounterItem {
+  monster: Monster;
+  count: number;
 }
 
 export default Encounter;

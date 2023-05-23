@@ -1,62 +1,31 @@
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
 import Typography from '@mui/material/Typography';
-import Stats from '../models/Stats';
 
-export function StatsTable({ stats }: StatsProps) {
+export function StatsTable({ children, title }: StatsProps) {
   return (
     <Paper elevation={4}>
-      <Grid container spacing={1} p={2}>
-        <Grid item xs={12}>
-          <Typography variant='h5'>Stats</Typography>
-        </Grid>
+      <Stack spacing={1} p={2}>
+        <Typography variant='h5'>{title}</Typography>
 
-        <Grid item xs={6}>
-          <Typography>Difficulty</Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Typography>{stats.difficulty}</Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Typography>Count</Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Typography>{stats.count}</Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Typography>Total CR</Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Typography>{stats.cr}</Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Typography>Total XP</Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Typography>{stats.xp}</Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Typography>XP Each</Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <Typography>{stats.each}</Typography>
-        </Grid>
-      </Grid>
+        <TableContainer>
+          <Table>
+            <TableBody>
+              {children}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Stack>
     </Paper>
   );
 }
 
 export interface StatsProps {
-  stats: Stats;
+  children?: React.ReactNode;
+  title: string;
 }
 
 export default StatsTable;
