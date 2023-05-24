@@ -62,14 +62,22 @@ export function Forge() {
   }
 
   function calculateStats(): Stats {
-    const stats = { difficulty: '', cr: 0, xp: 0, count: 0, each: 0 };
+    const stats: Stats = {
+      difficulty: '',
+      cr: 0,
+      xp: 0,
+      xpAdjusted: 0,
+      count: 0,
+      each: 0,
+    };
+
     const partySize = party.reduce((total, { count }) => total + count, 0);
 
     applyXP(stats, encounter);
     applyMultiplier(partySize, stats);
     applyDifficulty(stats, thresholds);
 
-    stats.each = Math.ceil(stats.xp / partySize);
+    stats.each = Math.ceil(stats.xpAdjusted / partySize);
 
     return stats;
   }
@@ -101,7 +109,7 @@ export function Forge() {
     if (partySize < 3 && index > 0) index++;
     if (partySize > 5 && index < 5) index--;
 
-    stats.xp *= modifiers[index];
+    stats.xpAdjusted = stats.xp * modifiers[index];
   }
 
   function applyDifficulty(stats: Stats, thresholds: Thresholds) {

@@ -11,7 +11,8 @@ export function DetailsTable({ stats }: DetailsTableProps) {
           <StatRow stat='Difficulty' data={stats.difficulty} />
           <StatRow stat='Count' data={stats.count} />
           <StatRow stat='XP Total' data={stats.xp} suffix=" xp" />
-          <StatRow stat='Player XP' data={stats.each} suffix=" xp" />
+          <StatRow stat='XP Adjusted' data={stats.xpAdjusted} suffix=" xp" />
+          <StatRow stat='XP Each' data={stats.each} suffix=" xp" />
         </Table>
       </TableContainer>
     </Section>
