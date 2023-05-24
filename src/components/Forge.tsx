@@ -106,8 +106,8 @@ export function Forge() {
       index = 5;
     }
 
-    if (partySize < 3 && index > 0) index++;
-    if (partySize > 5 && index < 5) index--;
+    if (partySize < 3 && index < 5) index++;
+    if (partySize > 5 && index > 0) index--;
 
     stats.xpAdjusted = stats.xp * modifiers[index];
   }
