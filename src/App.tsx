@@ -12,6 +12,15 @@ function App() {
     palette: {
       mode: prefersDarkMode ? 'dark' : 'light',
     },
+    components: {
+      MuiTableCell: {
+        styleOverrides: {
+          root: {
+            padding: '0.5rem',
+          },
+        },
+      },
+    },
   });
 
   const theme = useMemo(themeCreator, [prefersDarkMode]);

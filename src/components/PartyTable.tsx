@@ -8,9 +8,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Party from '../models/Party';
 import { useMemo } from 'react';
+import { Clear } from '@mui/icons-material';
+import Counter from './Counter';
 
 export function PartyTable({ party, setParty }: PartyTableProps) {
   const addGroup = () => setParty(() => {
@@ -37,8 +38,11 @@ export function PartyTable({ party, setParty }: PartyTableProps) {
     };
     const countDecrementor = (i: number) => () => {
       const newParty: Party = [...party];
-      newParty[i].count > 0 && newParty[i].count--;
+      newParty[i].count > 1 && newParty[i].count--;
       setParty(newParty);
+    };
+    const groupRemover = (i: number) => () => {
+      return setParty(party.filter((_, j) => j !== i));
     };
 
     return party.map(({ level, count }, i) => (
@@ -57,13 +61,18 @@ export function PartyTable({ party, setParty }: PartyTableProps) {
             decrement={countDecrementor(i)}
           />
         </TableCell>
+        <TableCell align='center'>
+          <Button variant='outlined' color='error' onClick={groupRemover(i)} sx={{ minWidth: 'unset', padding: '5px' }}>
+            <Clear />
+          </Button>
+        </TableCell>
       </TableRow>
     ));
   }, [party, setParty]);
 
   return (
     <Paper elevation={4}>
-      <Stack spacing={2} p={2}>
+      <Stack spacing={1} p={2}>
         <Typography variant='h5'>Party</Typography>
 
         <TableContainer>
@@ -72,6 +81,7 @@ export function PartyTable({ party, setParty }: PartyTableProps) {
               <TableRow>
                 <TableCell align='center'>Level</TableCell>
                 <TableCell align='center'>Count</TableCell>
+                <TableCell align='center'></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -81,7 +91,9 @@ export function PartyTable({ party, setParty }: PartyTableProps) {
         </TableContainer>
 
         <Stack direction='row' justifyContent='center' mt={2}>
-          <Button variant='contained' onClick={addGroup}>Add Group</Button>
+          <Button variant='contained' onClick={addGroup} size='small'>
+            Add Level
+          </Button>
         </Stack>
       </Stack>
     </Paper>
@@ -94,19 +106,3 @@ export interface PartyTableProps {
 }
 
 export default PartyTable;
-
-export function Counter({ data, decrement, increment }: CounterProps) {
-  return (
-    <ButtonGroup>
-      <Button variant='outlined' onClick={decrement}>-</Button>
-      <Button variant='outlined'>{data}</Button>
-      <Button variant='outlined' onClick={increment}>+</Button>
-    </ButtonGroup>
-  );
-}
-
-export interface CounterProps {
-  data: number;
-  decrement: () => void;
-  increment: () => void;
-}

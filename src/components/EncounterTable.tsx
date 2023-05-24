@@ -11,11 +11,27 @@ import { useMemo } from 'react';
 import Encounter from '../models/Encounter';
 import EncounterTableRow from './EncounterTableRow';
 
-export function EncounterTable({ encounter }: EncounterTableProps) {
+export function EncounterTable({ encounter, setEncounter }: EncounterTableProps) {
   const rows = useMemo(() => {
-    return Object.values(encounter).map((row, idx) =>
-      <EncounterTableRow key={idx} {...row} />)
-  }, [encounter]);
+    return Object.entries(encounter).map(([id, row], idx) => {
+      const setCount = (count: number) => setEncounter((prev) => {
+        return { ...prev, [id]: { ...row, count } };
+      });
+
+      const remove = () => setEncounter((prev) => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+
+      return <EncounterTableRow
+        key={idx}
+        setCount={setCount}
+        remove={remove}
+        {...row}
+      />;
+    })
+  }, [encounter, setEncounter]);
 
   return (
     <Paper elevation={4}>
@@ -29,7 +45,7 @@ export function EncounterTable({ encounter }: EncounterTableProps) {
                 <TableCell>Name</TableCell>
                 <TableCell align='right'>CR</TableCell>
                 <TableCell align='right'>XP</TableCell>
-                <TableCell align='right'>Count</TableCell>
+                <TableCell align='center'>Count</TableCell>
               </TableRow>
             </TableHead>
 
@@ -45,6 +61,7 @@ export function EncounterTable({ encounter }: EncounterTableProps) {
 
 export interface EncounterTableProps {
   encounter: Encounter;
+  setEncounter: React.Dispatch<React.SetStateAction<Encounter>>;
 }
 
 export default EncounterTable;

@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { useMemo, useState } from 'react';
 import useEncounter from '../hooks/useEncounter';
 import useMonsterData from '../hooks/useMonsterData';
-import Library from '../models/Library';
+import Library from './Library';
 import EncounterTable from './EncounterTable';
 import PartyTable from './PartyTable';
 import StatsTable from './StatsTable';
@@ -16,7 +16,7 @@ const defaultParty: Party = [{ level: 1, count: 1 }];
 export function Forge() {
   const monsterData = useMonsterData();
 
-  const [encounter] = useEncounter();
+  const [encounter, setEncounter] = useEncounter();
 
   const [party, setParty] = useState(defaultParty);
 
@@ -47,22 +47,21 @@ export function Forge() {
     const thresholds = { easy: 0, medium: 0, hard: 0, deadly: 0, daily: 0 };
 
     party.forEach(({ level, count }) => {
-      thresholds.easy += xp_table[level].easy * count ?? 0;
-      thresholds.medium += xp_table[level].medium * count ?? 0;
-      thresholds.hard += xp_table[level].hard * count ?? 0;
-      thresholds.deadly += xp_table[level].deadly * count ?? 0;
-      thresholds.daily += xp_table[level].daily * count ?? 0;
+      const index = level - 1;
+      thresholds.easy += xp_table[index].easy * count ?? 0;
+      thresholds.medium += xp_table[index].medium * count ?? 0;
+      thresholds.hard += xp_table[index].hard * count ?? 0;
+      thresholds.deadly += xp_table[index].deadly * count ?? 0;
+      thresholds.daily += xp_table[index].daily * count ?? 0;
     });
 
     return thresholds;
   }, [party]);
 
-  const encounterItems = useMemo(() => Object.values(encounter), [encounter]);
-
   const stats = useMemo(() => {
     const stats = { difficulty: '', cr: 0, xp: 0, count: 0, each: 0 };
 
-    encounterItems.forEach(({ monster: { cr, xp }, count }) => {
+    Object.values(encounter).forEach(({ monster: { cr, xp }, count }) => {
       stats.cr += cr * count;
       stats.xp += xp * count;
       stats.count += count;
@@ -103,7 +102,7 @@ export function Forge() {
     stats.each = Math.ceil(stats.xp / partySize);
 
     return stats;
-  }, [encounterItems, party, thresholds]);
+  }, [encounter, party, thresholds]);
 
   return (
     <>
@@ -117,23 +116,22 @@ export function Forge() {
           <PartyTable party={party} setParty={setParty} />
 
           <StatsTable title="Thresholds">
-            <StatsRow stat='Easy' data={thresholds.easy} />
-            <StatsRow stat='Medium' data={thresholds.medium} />
-            <StatsRow stat='Hard' data={thresholds.hard} />
-            <StatsRow stat='Deadly' data={thresholds.deadly} />
-            <StatsRow stat='Daily Limit' data={thresholds.daily} />
+            <StatsRow stat='Easy' data={thresholds.easy} suffix=" xp" />
+            <StatsRow stat='Medium' data={thresholds.medium} suffix=" xp" />
+            <StatsRow stat='Hard' data={thresholds.hard} suffix=" xp" />
+            <StatsRow stat='Deadly' data={thresholds.deadly} suffix=" xp" />
+            <StatsRow stat='Daily' data={thresholds.daily} suffix=" xp" />
           </StatsTable>
         </Stack>
 
         <Stack spacing={4}>
-          <EncounterTable encounter={encounter} />
+          <EncounterTable encounter={encounter} setEncounter={setEncounter} />
 
-          <StatsTable title="Stats">
+          <StatsTable title="Details">
             <StatsRow stat='Difficulty' data={stats.difficulty} />
             <StatsRow stat='Count' data={stats.count} />
-            <StatsRow stat='Total CR' data={stats.cr} />
-            <StatsRow stat='Total XP' data={stats.xp} />
-            <StatsRow stat='Player XP' data={stats.each} />
+            <StatsRow stat='XP Total' data={stats.xp} suffix=" xp" />
+            <StatsRow stat='Player XP' data={stats.each} suffix=" xp" />
           </StatsTable>
         </Stack>
 

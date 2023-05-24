@@ -2,7 +2,7 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import MonsterData from "./MonsterData";
+import MonsterData from "../models/MonsterData";
 
 export function Library({ monsterData }: LibraryProps) {
   const columns: GridColDef[] = [
