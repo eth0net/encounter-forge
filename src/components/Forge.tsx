@@ -1,22 +1,25 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useMemo, useState } from 'react';
-import useEncounter from '../hooks/useEncounter';
 import useMonsterData from '../hooks/useMonsterData';
-import Library from './Library';
+import Encounter from '../models/Encounter';
+import Party from '../models/Party';
+import Stats from '../models/Stats';
+import Thresholds from '../models/Thresholds';
 import EncounterTable from './EncounterTable';
+import Library from './Library';
 import PartyTable from './PartyTable';
+import StatsRow from './StatsRow';
 import StatsTable from './StatsTable';
 import d20 from '/src/assets/d20.png';
-import StatsRow from './StatsRow';
-import Party from '../models/Party';
 
+const defaultEncounter: Encounter = {};
 const defaultParty: Party = [{ level: 1, count: 1 }];
 
 export function Forge() {
   const monsterData = useMonsterData();
 
-  const [encounter, setEncounter] = useEncounter();
+  const [encounter, setEncounter] = useState(defaultEncounter);
 
   const [party, setParty] = useState(defaultParty);
 
@@ -60,49 +63,60 @@ export function Forge() {
 
   const stats = useMemo(() => {
     const stats = { difficulty: '', cr: 0, xp: 0, count: 0, each: 0 };
-
-    Object.values(encounter).forEach(({ monster: { cr, xp }, count }) => {
-      stats.cr += cr * count;
-      stats.xp += xp * count;
-      stats.count += count;
-    });
-
-    switch (true) {
-      case stats.count == 2:
-        stats.xp *= 1.5;
-        break;
-      case stats.count > 2 && stats.count < 7:
-        stats.xp *= 2;
-        break;
-      case stats.count > 6 && stats.count < 11:
-        stats.xp *= 2.5;
-        break;
-      case stats.count > 10 && stats.count < 15:
-        stats.xp *= 3;
-        break;
-      case stats.count > 14:
-        stats.xp *= 4;
-        break;
-    }
-
-    if (stats.cr < thresholds.easy) {
-      stats.difficulty = 'Trivial';
-    } else if (stats.cr < thresholds.medium) {
-      stats.difficulty = 'Easy';
-    } else if (stats.cr < thresholds.hard) {
-      stats.difficulty = 'Medium';
-    } else if (stats.cr < thresholds.deadly) {
-      stats.difficulty = 'Hard';
-    } else {
-      stats.difficulty = 'Deadly';
-    }
-
     const partySize = party.reduce((total, { count }) => total + count, 0);
+
+    applyXP(stats, encounter);
+    applyMultiplier(partySize, stats);
+    applyDifficulty(stats, thresholds);
 
     stats.each = Math.ceil(stats.xp / partySize);
 
     return stats;
   }, [encounter, party, thresholds]);
+
+  function applyXP(stats: Stats, encounter: Encounter) {
+    Object.values(encounter).forEach(({ monster: { cr, xp }, count }) => {
+      stats.cr += cr * count;
+      stats.xp += xp * count;
+      stats.count += count;
+    });
+  }
+
+  function applyMultiplier(partySize: number, stats: Stats) {
+    const modifiers = [1, 1.5, 2, 2.5, 3, 4];
+
+    let index = 0;
+    if (stats.count == 2) {
+      index = 1;
+    } else if (stats.count > 2 && stats.count < 7) {
+      index = 2;
+    } else if (stats.count > 6 && stats.count < 11) {
+      index = 3;
+    } else if (stats.count > 10 && stats.count < 15) {
+      index = 4;
+    } else if (stats.count > 14) {
+      index = 5;
+    }
+
+    if (partySize < 3 && index > 0) index++;
+    if (partySize > 5 && index < 5) index--;
+
+    stats.xp *= modifiers[index];
+  }
+
+  function applyDifficulty(stats: Stats, thresholds: Thresholds) {
+    if (stats.xp < thresholds.easy) {
+      stats.difficulty = 'Trivial';
+    } else if (stats.xp < thresholds.medium) {
+      stats.difficulty = 'Easy';
+    } else if (stats.xp < thresholds.hard) {
+      stats.difficulty = 'Medium';
+    } else if (stats.xp < thresholds.deadly) {
+      stats.difficulty = 'Hard';
+    } else {
+      stats.difficulty = 'Deadly';
+    }
+  }
 
   return (
     <>
@@ -136,11 +150,12 @@ export function Forge() {
         </Stack>
 
         <Stack spacing={4}>
-          <Library monsterData={monsterData} />
+          <Library monsterData={monsterData} setEncounter={setEncounter} />
         </Stack>
       </Stack>
     </>
   );
 }
+
 
 export default Forge;
