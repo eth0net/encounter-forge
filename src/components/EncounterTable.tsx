@@ -1,61 +1,19 @@
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import { useMemo } from 'react';
+import { Table, TableContainer } from '@mui/material';
 import Encounter from '../models/Encounter';
-import EncounterTableRow from './EncounterTableRow';
+import EncounterTableBody from './EncounterTableBody';
+import EncounterTableHead from './EncounterTableHead';
+import Section from './Section';
 
-export function EncounterTable({ encounter, setEncounter }: EncounterTableProps) {
-  const rows = useMemo(() => {
-    return Object.entries(encounter).map(([id, row], idx) => {
-      const setCount = (count: number) => setEncounter((prev) => {
-        return { ...prev, [id]: { ...row, count } };
-      });
-
-      const remove = () => setEncounter((prev) => {
-        const next = { ...prev };
-        delete next[id];
-        return next;
-      });
-
-      return <EncounterTableRow
-        key={idx}
-        setCount={setCount}
-        remove={remove}
-        {...row}
-      />;
-    })
-  }, [encounter, setEncounter]);
-
+export function EncounterTable(props: EncounterTableProps) {
   return (
-    <Paper elevation={4}>
-      <Stack spacing={1} p={2}>
-        <Typography variant='h5'>Encounter</Typography>
-
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align='right'>CR</TableCell>
-                <TableCell align='right'>XP</TableCell>
-                <TableCell align='center'>Count</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {rows}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Stack>
-    </Paper>
+    <Section title='Encounter'>
+      <TableContainer>
+        <Table>
+          <EncounterTableHead />
+          <EncounterTableBody {...props} />
+        </Table>
+      </TableContainer>
+    </Section >
   );
 }
 

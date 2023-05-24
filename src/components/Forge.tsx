@@ -6,11 +6,11 @@ import Encounter from '../models/Encounter';
 import Party from '../models/Party';
 import Stats from '../models/Stats';
 import Thresholds from '../models/Thresholds';
+import DetailsTable from './DetailsTable';
 import EncounterTable from './EncounterTable';
 import Library from './Library';
 import PartyTable from './PartyTable';
-import StatsRow from './StatsRow';
-import StatsTable from './StatsTable';
+import ThresholdsTable from './ThresholdsTable';
 import d20 from '/src/assets/d20.png';
 
 const defaultEncounter: Encounter = {};
@@ -18,13 +18,13 @@ const defaultParty: Party = [{ level: 1, count: 1 }];
 
 export function Forge() {
   const monsterData = useMonsterData();
-
-  const [encounter, setEncounter] = useState(defaultEncounter);
-
   const [party, setParty] = useState(defaultParty);
+  const [encounter, setEncounter] = useState(defaultEncounter);
+  const thresholds = useMemo(calculateThresholds, [party]);
+  const stats = useMemo(calculateStats, [encounter, party, thresholds]);
 
-  const thresholds = useMemo(() => {
-    const xp_table = [
+  function calculateThresholds(): Thresholds {
+    const xp_table: Thresholds[] = [
       { easy: 25, medium: 50, hard: 75, deadly: 100, daily: 300 },
       { easy: 50, medium: 100, hard: 150, deadly: 200, daily: 600 },
       { easy: 75, medium: 150, hard: 225, deadly: 400, daily: 1200 },
@@ -47,7 +47,7 @@ export function Forge() {
       { easy: 2800, medium: 5700, hard: 8500, deadly: 12700, daily: 40000 },
     ];
 
-    const thresholds = { easy: 0, medium: 0, hard: 0, deadly: 0, daily: 0 };
+    const thresholds: Thresholds = { easy: 0, medium: 0, hard: 0, deadly: 0, daily: 0 };
 
     party.forEach(({ level, count }) => {
       const index = level - 1;
@@ -59,9 +59,9 @@ export function Forge() {
     });
 
     return thresholds;
-  }, [party]);
+  }
 
-  const stats = useMemo(() => {
+  function calculateStats(): Stats {
     const stats = { difficulty: '', cr: 0, xp: 0, count: 0, each: 0 };
     const partySize = party.reduce((total, { count }) => total + count, 0);
 
@@ -72,7 +72,7 @@ export function Forge() {
     stats.each = Math.ceil(stats.xp / partySize);
 
     return stats;
-  }, [encounter, party, thresholds]);
+  }
 
   function applyXP(stats: Stats, encounter: Encounter) {
     Object.values(encounter).forEach(({ monster: { cr, xp }, count }) => {
@@ -125,37 +125,23 @@ export function Forge() {
         <Typography variant='h2'>Encounter Forge</Typography>
       </Stack>
 
-      <Stack direction='row' spacing={4} useFlexGap justifyContent='center'>
-        <Stack spacing={4}>
+      <Stack direction='row' spacing={4} useFlexGap justifyContent='center' flexWrap='wrap'>
+        <Stack spacing={4} minWidth={300}>
           <PartyTable party={party} setParty={setParty} />
-
-          <StatsTable title="Thresholds">
-            <StatsRow stat='Easy' data={thresholds.easy} suffix=" xp" />
-            <StatsRow stat='Medium' data={thresholds.medium} suffix=" xp" />
-            <StatsRow stat='Hard' data={thresholds.hard} suffix=" xp" />
-            <StatsRow stat='Deadly' data={thresholds.deadly} suffix=" xp" />
-            <StatsRow stat='Daily' data={thresholds.daily} suffix=" xp" />
-          </StatsTable>
+          <ThresholdsTable thresholds={thresholds} />
         </Stack>
 
-        <Stack spacing={4}>
+        <Stack spacing={4} minWidth={300}>
           <EncounterTable encounter={encounter} setEncounter={setEncounter} />
-
-          <StatsTable title="Details">
-            <StatsRow stat='Difficulty' data={stats.difficulty} />
-            <StatsRow stat='Count' data={stats.count} />
-            <StatsRow stat='XP Total' data={stats.xp} suffix=" xp" />
-            <StatsRow stat='Player XP' data={stats.each} suffix=" xp" />
-          </StatsTable>
+          <DetailsTable stats={stats} />
         </Stack>
 
-        <Stack spacing={4}>
+        <Stack spacing={4} minWidth={300}>
           <Library monsterData={monsterData} setEncounter={setEncounter} />
         </Stack>
       </Stack>
     </>
   );
 }
-
 
 export default Forge;

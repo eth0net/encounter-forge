@@ -1,7 +1,7 @@
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
-export function StatsRow({ stat, data, suffix = '' }: StatsRowProps) {
+export function StatRow({ stat, data, suffix = '' }: StatRowProps) {
   return (
     <TableRow>
       <TableCell>{stat}</TableCell>
@@ -10,10 +10,10 @@ export function StatsRow({ stat, data, suffix = '' }: StatsRowProps) {
   );
 }
 
-export interface StatsRowProps {
+export interface StatRowProps {
   stat: string;
   data: number | string;
   suffix?: string;
 }
 
-export default StatsRow;
+export default StatRow;
