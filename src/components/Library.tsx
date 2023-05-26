@@ -1,10 +1,10 @@
 import { Table, TableContainer, TablePagination } from '@mui/material';
 import { useMemo, useState } from "react";
 import Encounter from "../models/Encounter";
-import MonsterData from "../models/MonsterData";
 import LibraryBody from './LibraryBody';
 import LibraryHead from './LibraryHead';
 import Section from './Section';
+import Monster from '../models/Monster';
 
 export function Library({ monsterData, ...props }: LibraryProps) {
   const [page, setPage] = useState(0);
@@ -37,7 +37,7 @@ export function Library({ monsterData, ...props }: LibraryProps) {
 
 export interface LibraryProps {
   setEncounter: React.Dispatch<React.SetStateAction<Encounter>>;
-  monsterData: MonsterData;
+  monsterData: Monster[];
 }
 
 export default Library;

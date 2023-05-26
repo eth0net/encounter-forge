@@ -4,13 +4,13 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { useMemo } from "react";
 import Encounter from "../models/Encounter";
-import MonsterData from "../models/MonsterData";
 import ChallengeRating from "./ChallengeRating";
 import { Add } from '@mui/icons-material';
+import Monster from '../models/Monster';
 
 export function LibraryBody({ monsterData, setEncounter }: LibraryBodyProps) {
   const rows = useMemo(() => {
-    return monsterData.map((monster) => {
+    return monsterData.map((monster, index) => {
       const add = () => setEncounter((prev) => {
         const next = { ...prev };
         next[monster.id] || (next[monster.id] = { monster, count: 0 });
@@ -19,7 +19,7 @@ export function LibraryBody({ monsterData, setEncounter }: LibraryBodyProps) {
       });
 
       return (
-        <TableRow>
+        <TableRow key={index}>
           <TableCell>{monster.name}</TableCell>
           <TableCell align='right'><ChallengeRating>{monster.cr}</ChallengeRating></TableCell>
           <TableCell align='right'>{monster.xp}</TableCell>
@@ -42,7 +42,7 @@ export function LibraryBody({ monsterData, setEncounter }: LibraryBodyProps) {
 
 export interface LibraryBodyProps {
   setEncounter: React.Dispatch<React.SetStateAction<Encounter>>;
-  monsterData: MonsterData;
+  monsterData: Monster[];
 }
 
 export default LibraryBody;

@@ -1,20 +1,22 @@
 export class Monster {
   id: string
   name: string;
+  source: string;
   cr: number;
 
-  constructor(name: string, cr: number) {
-    this.id = name.toLowerCase().replace(/ /g, '-');
+  constructor(name: string, source: string, cr: number) {
+    this.id = (`${name}-${source}`).toLowerCase().replace(/ /g, '-');
     this.name = name;
+    this.source = source;
     this.cr = cr;
   }
 
   get xp() {
-    return xpForCr(this.cr);
+    return xpForCr(this);
   }
 }
 
-function xpForCr(cr: number) {
+function xpForCr({ id, cr }: Monster) {
   switch (cr) {
     case 0: return 10;
     case 1 / 8: return 25;
@@ -50,8 +52,9 @@ function xpForCr(cr: number) {
     case 28: return 120000;
     case 29: return 135000;
     case 30: return 155000;
-    default: throw new Error(`Unknown CR: ${cr}`);
   }
+  console.error(`Unknown CR: ${cr} for monster ${id}`);
+  return 0;
 }
 
 export default Monster;

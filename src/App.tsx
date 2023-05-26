@@ -1,9 +1,12 @@
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
-import createTheme from '@mui/material/styles/createTheme';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useMediaQuery } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import './App.css';
 import Forge from './components/Forge';
+
+
+const queryClient = new QueryClient()
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -26,9 +29,11 @@ function App() {
   const theme = useMemo(themeCreator, [prefersDarkMode]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Forge />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <Forge />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 
