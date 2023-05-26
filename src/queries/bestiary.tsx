@@ -23,11 +23,13 @@ export function useBestiary() {
   const monsters = useMemo(() => {
     return results.flatMap(({ data }) => data?.monster || [])
       .map((m, _, a) => {
+        if (!m._copy) return m;
+
         const src = a.find(({ name, source }) => {
           return name === m.name && source !== m.source;
         });
 
-        return deepmerge(m, src || {});
+        return deepmerge(src || {}, m);
       })
       .map(({ name, source, cr }) => new Monster(name, source, parseInt(cr)))
   }, [results]);
