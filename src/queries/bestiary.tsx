@@ -11,11 +11,14 @@ export function useBestiary() {
 
   // todo: filter index to selected sources
 
-  const queries = Object.entries(index.data || {}).map(([name, path]) => ({
-    queryKey: ['bestiary', 'source', name, path],
-    queryFn: () => getSource(path),
-    enabled: index.isSuccess,
-  }));
+  const queries = useMemo(() => {
+    return Object.entries(index.data || {})
+      .map(([name, path]) => ({
+        queryKey: ['bestiary', 'source', name, path],
+        queryFn: () => getSource(path),
+        enabled: index.isSuccess,
+      }));
+  }, [index]);
 
   const results = useQueries({ queries });
 
