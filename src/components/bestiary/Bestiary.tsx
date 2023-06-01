@@ -13,6 +13,9 @@ export function Bestiary(props: BestiaryProps) {
   const [page, setPage] = useState(0);
   const rowsPerPage = 10;
 
+  // todo: sort data using table head
+  // todo: filter data using search bar
+
   const visibleData = useMemo(() => {
     return monsters.slice(
       page * rowsPerPage,
