@@ -21,6 +21,7 @@ export function LibraryBody({ monsterData, setEncounter }: LibraryBodyProps) {
       return (
         <TableRow key={index}>
           <TableCell>{monster.name}</TableCell>
+          <TableCell>{monster.source}</TableCell>
           <TableCell align='right'><ChallengeRating>{monster.cr}</ChallengeRating></TableCell>
           <TableCell align='right'>{monster.xp}</TableCell>
           <TableCell align='center'>

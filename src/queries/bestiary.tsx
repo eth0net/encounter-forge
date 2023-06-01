@@ -1,8 +1,7 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getIndex, getSource } from "../api/bestiary";
+import { getIndex, getSource, hydrateSourceMonster } from "../api/bestiary";
 import { Monster } from "../models/Monster";
-import deepmerge from "deepmerge";
 
 export function useBestiary() {
   const index = useQuery({
@@ -20,19 +19,17 @@ export function useBestiary() {
 
   const results = useQueries({ queries });
 
-  const monsters = useMemo(() => {
-    return results.flatMap(({ data }) => data?.monster || [])
-      .map((m, _, a) => {
-        if (!m._copy) return m;
-
-        const src = a.find(({ name, source }) => {
-          return name === m.name && source !== m.source;
-        });
-
-        return deepmerge(src || {}, m);
-      })
-      .map(({ name, source, cr }) => new Monster(name, source, parseInt(cr)))
+  const sourceMonsters = useMemo(() => {
+    return results
+      .map((r) => r.data)
+      .flatMap((source) => source?.monster || []);
   }, [results]);
+
+  const monsters = useMemo(() => {
+    return sourceMonsters
+      .map((m, _, a) => hydrateSourceMonster(m, a))
+      .map((m) => new Monster(m));
+  }, [sourceMonsters]);
 
   // const sort: string = "name";
   // monsters = useMemo(() => {

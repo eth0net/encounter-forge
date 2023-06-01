@@ -1,4 +1,5 @@
 import axios from "axios";
+import deepmerge from "deepmerge";
 
 const baseURL = 'https://raw.githubusercontent.com/5etools-mirror-1/5etools-mirror-1.github.io/master/data/bestiary/';
 
@@ -19,15 +20,27 @@ export interface Index {
 }
 
 export interface Source {
-  monster: Monster[];
+  monster: SourceMonster[];
 }
 
-export interface Monster {
+export interface SourceMonster {
   name: string;
   source: string;
-  cr: string;
+  cr: number | string | { cr: number | string };
   _copy: {
     name: string;
     source: string;
   };
+}
+
+export function hydrateSourceMonster(monster: SourceMonster, monsters: SourceMonster[]): SourceMonster {
+  if (!monster._copy) return monster;
+
+  const src = monsters.find(({ name, source }) =>
+    name == monster._copy.name && source == monster._copy.source
+  );
+
+  if (!src) return monster;
+
+  return deepmerge(hydrateSourceMonster(src, monsters), monster);
 }

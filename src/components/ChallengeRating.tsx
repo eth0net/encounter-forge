@@ -5,32 +5,32 @@ export function ChallengeRating({ children }: ChallengeRatingProps) {
     const whole = Math.floor(children);
     const fraction = children - whole;
 
-    let fractionString = '';
+    let fractionStr = '';
     switch (fraction) {
       case 0.125:
-        fractionString = '⅛';
+        fractionStr = '⅛';
         break;
       case 0.25:
-        fractionString = '¼';
+        fractionStr = '¼';
         break;
       case 0.375:
-        fractionString = '⅜';
+        fractionStr = '⅜';
         break;
       case 0.5:
-        fractionString = '½';
+        fractionStr = '½';
         break;
       case 0.625:
-        fractionString = '⅝';
+        fractionStr = '⅝';
         break;
       case 0.75:
-        fractionString = '¾';
+        fractionStr = '¾';
         break;
       case 0.875:
-        fractionString = '⅞';
+        fractionStr = '⅞';
         break;
     }
 
-    return `${whole > 0 ? whole : ''}${fractionString}`;
+    return fraction ? whole ? `${whole} ${fractionStr}` : fractionStr : whole;
   }, [children]);
 
   return (

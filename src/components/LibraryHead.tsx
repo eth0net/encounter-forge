@@ -7,6 +7,7 @@ export function LibraryHead() {
     <TableHead>
       <TableRow>
         <TableCell>Name</TableCell>
+        <TableCell>Source</TableCell>
         <TableCell align='right'>CR</TableCell>
         <TableCell align='right'>XP</TableCell>
         <TableCell align='center'>Add</TableCell>
