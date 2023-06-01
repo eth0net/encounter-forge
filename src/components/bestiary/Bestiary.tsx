@@ -1,4 +1,4 @@
-import { Button, Stack, Table, TableContainer, TablePagination } from '@mui/material';
+import { Button, Stack, Table, TableContainer, TablePagination, TextField } from '@mui/material';
 import { useMemo, useState } from "react";
 import { Encounter, Monster } from "../../models";
 import { useBestiary } from '../../queries/bestiary';
@@ -13,6 +13,8 @@ export function Bestiary(props: BestiaryProps) {
   const [page, setPage] = useState(0);
   const rowsPerPage = 10;
 
+  const [search, setSearch] = useState('');
+
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof Monster>('name');
 
@@ -22,15 +24,19 @@ export function Bestiary(props: BestiaryProps) {
     setOrderBy(property);
   };
 
-  // todo: filter data using search bar
+  const filteredData = useMemo(() => {
+    return monsters.filter(monster => {
+      return monster.name.toLowerCase().includes(search.toLowerCase());
+    });
+  }, [monsters, search]);
 
   const sortedData = useMemo(() => {
-    return monsters.sort((a, b) => {
+    return filteredData.sort((a, b) => {
       if (a[orderBy] < b[orderBy]) return order === 'asc' ? -1 : 1;
       if (a[orderBy] > b[orderBy]) return order === 'asc' ? 1 : -1;
       return 0;
     });
-  }, [monsters, order, orderBy]);
+  }, [filteredData, order, orderBy]);
 
   const visibleData = useMemo(() => {
     return sortedData.slice(
@@ -41,7 +47,13 @@ export function Bestiary(props: BestiaryProps) {
 
   return (
     <Section title='Bestiary'>
-      <Stack direction='row' justifyContent='space-around'>
+      <Stack direction='row' justifyContent='space-between'>
+        <TextField
+          label='Search'
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          size='small'
+        />
         <Button
           variant='contained'
           onClick={() => setEnable5eTools(e => !e)}
@@ -59,7 +71,7 @@ export function Bestiary(props: BestiaryProps) {
       </TableContainer>
       <TablePagination
         component='div'
-        count={monsters.length}
+        count={sortedData.length}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[rowsPerPage]}
         page={page}
