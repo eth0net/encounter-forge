@@ -6,18 +6,16 @@ import Party from '../models/Party';
 import Stats from '../models/Stats';
 import Thresholds from '../models/Thresholds';
 import DetailsTable from './DetailsTable';
-import EncounterTable from './EncounterTable';
-import Library from './Library';
 import PartyTable from './PartyTable';
 import ThresholdsTable from './ThresholdsTable';
+import { Bestiary } from './bestiary';
+import { EncounterTable } from './encounter-table';
 import d20 from '/src/assets/d20.png';
-import { useBestiary } from '../queries/bestiary';
 
 const defaultEncounter: Encounter = {};
 const defaultParty: Party = [{ level: 1, count: 1 }];
 
 export function Forge() {
-  const { monsters } = useBestiary();
   const [party, setParty] = useState(defaultParty);
   const [encounter, setEncounter] = useState(defaultEncounter);
   const thresholds = useMemo(calculateThresholds, [party]);
@@ -145,7 +143,7 @@ export function Forge() {
         </Stack>
 
         <Stack spacing={4} minWidth={300}>
-          <Library monsterData={monsters} setEncounter={setEncounter} />
+          <Bestiary setEncounter={setEncounter} />
         </Stack>
       </Stack>
     </>

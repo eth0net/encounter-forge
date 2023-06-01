@@ -1,0 +1,1 @@
+export { useBestiary } from './useBestiary';

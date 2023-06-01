@@ -1,10 +1,10 @@
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import { EncounterItem } from '../models/Encounter';
-import Counter from './Counter';
-import ChallengeRating from './ChallengeRating';
+import { EncounterItem } from '../../models/Encounter';
+import Counter from '../Counter';
+import ChallengeRating from '../ChallengeRating';
 
-export function EncounterTableRow({ monster, count, remove, setCount }: EncounterTableRowProps) {
+export function EncounterRow({ monster, count, remove, setCount }: EncounterRowProps) {
   const increment = () => {
     count < 99 && setCount(count + 1);
   }
@@ -24,9 +24,9 @@ export function EncounterTableRow({ monster, count, remove, setCount }: Encounte
   );
 }
 
-export interface EncounterTableRowProps extends EncounterItem {
+export interface EncounterRowProps extends EncounterItem {
   setCount: (count: number) => void;
   remove: () => void;
 }
 
-export default EncounterTableRow;
+export default EncounterRow;

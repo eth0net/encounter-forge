@@ -1,0 +1,1 @@
+export { EncounterTable } from './EncounterTable';

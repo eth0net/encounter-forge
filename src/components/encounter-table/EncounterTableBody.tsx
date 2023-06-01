@@ -1,6 +1,6 @@
 import TableBody from '@mui/material/TableBody';
 import { useMemo } from 'react';
-import Encounter from '../models/Encounter';
+import Encounter from '../../models/Encounter';
 import EncounterTableRow from './EncounterTableRow';
 
 export function EncounterTableBody({ encounter, setEncounter }: EncounterTableBodyProps) {

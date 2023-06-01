@@ -3,14 +3,14 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { useMemo } from "react";
-import Encounter from "../models/Encounter";
-import ChallengeRating from "./ChallengeRating";
+import Encounter from "../../models/Encounter";
+import ChallengeRating from "../ChallengeRating";
 import { Add } from '@mui/icons-material';
-import Monster from '../models/Monster';
+import Monster from '../../models/Monster';
 
-export function LibraryBody({ monsterData, setEncounter }: LibraryBodyProps) {
+export function BestiaryBody({ monsters: monsters, setEncounter }: LibraryBodyProps) {
   const rows = useMemo(() => {
-    return monsterData.map((monster, index) => {
+    return monsters.map((monster, index) => {
       const add = () => setEncounter((prev) => {
         const next = { ...prev };
         next[monster.id] || (next[monster.id] = { monster, count: 0 });
@@ -32,7 +32,7 @@ export function LibraryBody({ monsterData, setEncounter }: LibraryBodyProps) {
         </TableRow>
       );
     });
-  }, [monsterData, setEncounter]);
+  }, [monsters, setEncounter]);
 
   return (
     <TableBody>
@@ -43,7 +43,7 @@ export function LibraryBody({ monsterData, setEncounter }: LibraryBodyProps) {
 
 export interface LibraryBodyProps {
   setEncounter: React.Dispatch<React.SetStateAction<Encounter>>;
-  monsterData: Monster[];
+  monsters: Monster[];
 }
 
-export default LibraryBody;
+export default BestiaryBody;
