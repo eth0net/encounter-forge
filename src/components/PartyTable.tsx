@@ -1,10 +1,8 @@
-import Button from '@mui/material/Button';
-import Party from '../models/Party';
+import { Button, Stack, Table, TableContainer } from '@mui/material';
+import { Party } from '../models';
 import PartyTableBody from './PartyTableBody';
 import PartyTableHead from './PartyTableHead';
 import Section from './Section';
-import TableContainer from '@mui/material/TableContainer';
-import Table from '@mui/material/Table';
 
 export function PartyTable({ party, setParty }: PartyTableProps) {
   const addGroup = () => setParty(party => [...party, { level: 1, count: 1 }]);
@@ -17,10 +15,11 @@ export function PartyTable({ party, setParty }: PartyTableProps) {
           <PartyTableBody party={party} setParty={setParty} />
         </Table>
       </TableContainer>
-
-      <Button variant='contained' onClick={addGroup} size='small'>
-        Add Level
-      </Button>
+      <Stack direction='row' justifyContent='center'>
+        <Button variant='contained' onClick={addGroup} size='small'>
+          Add Group
+        </Button>
+      </Stack>
     </Section>
   );
 }

@@ -33,6 +33,8 @@ export function PartyTableBody({ party, setParty }: PartyTableBodyProps) {
       return setParty(party.filter((_, j) => j !== i));
     };
 
+    const disableDeletes = party.length < 2;
+
     return party.map(({ level, count }, i) => (
       <TableRow key={i}>
         <TableCell align='center'>
@@ -48,7 +50,7 @@ export function PartyTableBody({ party, setParty }: PartyTableBodyProps) {
             decrement={countDecrementor(i)} />
         </TableCell>
         <TableCell align='center'>
-          <Button variant='outlined' color='error' onClick={groupRemover(i)} sx={{ minWidth: 'unset', padding: '5px' }}>
+          <Button variant='outlined' color='error' onClick={groupRemover(i)} sx={{ minWidth: 'unset', padding: '5px' }} disabled={disableDeletes}>
             <Clear />
           </Button>
         </TableCell>

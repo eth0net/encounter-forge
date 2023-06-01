@@ -8,7 +8,7 @@ export function PartyTableHead() {
       <TableRow>
         <TableCell align='center'>Level</TableCell>
         <TableCell align='center'>Count</TableCell>
-        <TableCell align='center'></TableCell>
+        <TableCell align='center'>Clear</TableCell>
       </TableRow>
     </TableHead>
   );

@@ -1,10 +1,10 @@
 import { Button, Stack, Table, TableContainer, TablePagination } from '@mui/material';
 import { useMemo, useState } from "react";
-import Encounter from "../../models/Encounter";
+import { Encounter, Monster } from "../../models";
 import { useBestiary } from '../../queries/bestiary';
 import Section from '../Section';
-import BestiaryBody from './BestiaryBody';
-import BestiaryHead from './BestiaryHead';
+import { BestiaryBody } from './BestiaryBody';
+import { BestiaryHead, Order } from './BestiaryHead';
 
 export function Bestiary(props: BestiaryProps) {
   const [enable5eTools, setEnable5eTools] = useState(false);
@@ -13,19 +13,35 @@ export function Bestiary(props: BestiaryProps) {
   const [page, setPage] = useState(0);
   const rowsPerPage = 10;
 
-  // todo: sort data using table head
+  const [order, setOrder] = useState<Order>('asc');
+  const [orderBy, setOrderBy] = useState<keyof Monster>('name');
+
+  const onSort = (_: React.MouseEvent, property: keyof Monster) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
   // todo: filter data using search bar
 
+  const sortedData = useMemo(() => {
+    return monsters.sort((a, b) => {
+      if (a[orderBy] < b[orderBy]) return order === 'asc' ? -1 : 1;
+      if (a[orderBy] > b[orderBy]) return order === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }, [monsters, order, orderBy]);
+
   const visibleData = useMemo(() => {
-    return monsters.slice(
+    return sortedData.slice(
       page * rowsPerPage,
       page * rowsPerPage + rowsPerPage
     );
-  }, [monsters, page, rowsPerPage]);
+  }, [sortedData, page, rowsPerPage]);
 
   return (
     <Section title='Bestiary'>
-      <Stack>
+      <Stack direction='row' justifyContent='space-around'>
         <Button
           variant='contained'
           onClick={() => setEnable5eTools(e => !e)}
@@ -37,7 +53,7 @@ export function Bestiary(props: BestiaryProps) {
       </Stack>
       <TableContainer>
         <Table>
-          <BestiaryHead />
+          <BestiaryHead onSort={onSort} order={order} orderBy={orderBy} />
           <BestiaryBody monsters={visibleData} {...props} />
         </Table>
       </TableContainer>
