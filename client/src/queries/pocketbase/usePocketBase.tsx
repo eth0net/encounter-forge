@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
-import PocketBase from 'pocketbase';
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { authWithDiscord, clearAuth, listMonsters } from "../../api/pocketbase";
+import { Monster } from "../../models/Monster";
 
-export function usePocketBase() {
-  const [pocketBase, setPocketBase] = useState<PocketBase>();
+export function usePocketBaseAuth() {
+  return { authWithDiscord, clearAuth, };
+}
 
-  useEffect(() => {
-    const pocketBase = new PocketBase('http://127.0.0.1:8090');
-    setPocketBase(pocketBase);
-  }, []);
+export default usePocketBaseAuth;
 
-  const loginWithDiscord = async () => {
-    pocketBase?.collection('users').authWithOAuth2({
-      provider: 'discord',
-    });
-  };
+export function usePocketBaseMonsters() {
+  const result = useQuery({
+    queryKey: ["pocketbase", "monsters", "list"],
+    queryFn: listMonsters,
+  });
 
-  const logout = async () => {
-    pocketBase?.authStore.clear();
-  };
+  const monsters = useMemo(() => {
+    return (result.data || []).map(r => new Monster(r))
+  }, [result.data]);
 
-  return { pocketBase, loginWithDiscord, logout };
+  return { monsters, ...result };
 }

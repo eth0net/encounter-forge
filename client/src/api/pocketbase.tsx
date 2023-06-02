@@ -2,17 +2,20 @@ import PocketBase from 'pocketbase';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
-export function authWithDiscord() {
-  const authData = pb
+export async function authWithDiscord() {
+  return await pb
     .collection('users')
     .authWithOAuth2({
-      provider: 'discord'
+      provider: 'discord',
     });
+}
 
-  console.log(pb?.authStore?.isValid);
-  console.log(pb?.authStore?.token);
-  console.log(pb?.authStore?.model?.id);
-  console.log(authData);
+export function clearAuth() {
+  pb.authStore.clear();
+}
 
-  // pb.authStore.clear();
+export async function listMonsters() {
+  return await pb
+    .collection('monsters')
+    .getFullList();
 }

@@ -1,19 +1,12 @@
+import { useMemo } from "react";
+import { usePocketBaseMonsters } from "../pocketbase/usePocketBase";
 import use5eTools from "./use5eTools";
 
 export function useBestiary({ enable5eTools = true }: { enable5eTools: boolean }) {
-  const { monsters } = use5eTools(enable5eTools);
+  const { monsters: m5e } = use5eTools(enable5eTools);
+  const { monsters: mpb } = usePocketBaseMonsters();
 
-  // const sort: string = "name";
-  // monsters = useMemo(() => {
-  //   switch (sort) {
-  //     case "name":
-  //       return monsters.sort((a, b) => a.name.localeCompare(b.name));
-  //     case "cr":
-  //       return monsters.sort((a, b) => a.cr - b.cr);
-  //     default:
-  //       return monsters;
-  //   }
-  // }, [monsters, sort]);
+  const monsters = useMemo(() => [...m5e, ...mpb], [m5e, mpb]);
 
   return { monsters };
 }

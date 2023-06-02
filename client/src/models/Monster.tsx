@@ -1,4 +1,7 @@
-import { SourceMonster } from "../api/bestiary";
+import { Record } from 'pocketbase';
+import { SourceMonster } from '../api/bestiary';
+
+type cr = number | string | { cr: number | string };
 
 export class Monster {
   id: string
@@ -7,15 +10,23 @@ export class Monster {
   cr: number;
   xp: number;
 
-  constructor({ name, source, cr }: SourceMonster) {
-    this.id = (`${name}-${source}`).toLowerCase().replace(/ /g, '-');
+  constructor(from: SourceMonster | Record) {
+    const { name, source, cr } = from;
+
+    if (Object.hasOwn(from, "id")) {
+      const { id } = from as Record;
+      this.id = id;
+    } else {
+      this.id = (`${name}-${source}`).toLowerCase().replace(/ /g, '-');
+    }
+
     this.name = name;
     this.source = source;
     this.cr = this.parseCR(cr);
     this.xp = this.calculateXP();
   }
 
-  private parseCR(cr: number | string | { cr: number | string }): number {
+  private parseCR(cr: cr): number {
     switch (typeof cr) {
       case "number": return cr;
       case "object": return this.parseCR(cr.cr);
