@@ -5,7 +5,6 @@ import { useMemo } from 'react';
 import './App.css';
 import Forge from './components/Forge';
 
-
 const queryClient = new QueryClient()
 
 function App() {

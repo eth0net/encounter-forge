@@ -47,7 +47,7 @@ export function Bestiary(props: BestiaryProps) {
 
   return (
     <Section title='Bestiary'>
-      <Stack direction='row' justifyContent='space-between'>
+      <Stack direction='row' justifyContent='space-between' alignItems='center'>
         <TextField
           label='Search'
           value={search}

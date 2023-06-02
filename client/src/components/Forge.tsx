@@ -11,6 +11,7 @@ import ThresholdsTable from './ThresholdsTable';
 import { Bestiary } from './bestiary';
 import { EncounterTable } from './encounter-table';
 import d20 from '/src/assets/d20.png';
+import { DiscordAuth } from './auth/DiscordAuth';
 
 const defaultEncounter: Encounter = {};
 const defaultParty: Party = [{ level: 1, count: 1 }];
@@ -126,10 +127,16 @@ export function Forge() {
 
   return (
     <>
-      <Stack direction='row' alignItems='center' justifyContent='center' spacing={2} mb={8}>
-        <img src={d20} className='logo d20' alt='d20' height={96} />
-        <Typography variant='h2'>Encounter Forge</Typography>
-      </Stack>
+      <Stack direction='row' justifyContent='space-between' mb={8}>
+        <Stack direction='row' alignItems='center' justifyContent='center' spacing={2}>
+          <img src={d20} className='logo d20' alt='d20' height={48} />
+          <Typography variant='h1' fontSize={32}>Encounter Forge</Typography>
+        </Stack>
+
+        <Stack direction='row' alignItems='center' justifyContent='center' spacing={2}>
+          <DiscordAuth />
+        </Stack>
+      </Stack >
 
       <Stack direction='row' spacing={4} useFlexGap justifyContent='center' flexWrap='wrap'>
         <Stack spacing={4} minWidth={300}>
