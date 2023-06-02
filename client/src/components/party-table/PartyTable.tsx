@@ -1,8 +1,8 @@
 import { Button, Stack, Table, TableContainer } from '@mui/material';
-import { Party } from '../models';
+import { Party } from '../../models';
+import Section from '../Section';
 import PartyTableBody from './PartyTableBody';
 import PartyTableHead from './PartyTableHead';
-import Section from './Section';
 
 export function PartyTable({ party, setParty }: PartyTableProps) {
   const addGroup = () => setParty(party => [...party, { level: 1, count: 1 }]);

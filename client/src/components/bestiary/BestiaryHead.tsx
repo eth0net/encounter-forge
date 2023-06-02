@@ -1,8 +1,5 @@
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Monster from '../../models/Monster';
-import { TableSortLabel } from '@mui/material';
+import { TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
+import { Monster } from '../../models';
 
 export function BestiaryHead({ onSort, order, orderBy }: BestiaryHeadProps) {
   return (

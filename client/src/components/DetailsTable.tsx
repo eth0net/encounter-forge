@@ -1,5 +1,5 @@
 import { Table, TableBody, TableContainer } from '@mui/material';
-import Stats from '../models/Stats';
+import { Stats } from '../models';
 import Section from './Section';
 import StatRow from './StatRow';
 

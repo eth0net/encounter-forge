@@ -1,5 +1,5 @@
 import { Table, TableBody, TableContainer } from '@mui/material';
-import Thresholds from '../models/Thresholds';
+import { Thresholds } from '../models';
 import Section from './Section';
 import StatRow from './StatRow';
 

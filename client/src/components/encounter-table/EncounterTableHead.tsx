@@ -1,6 +1,4 @@
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { TableCell, TableHead, TableRow } from '@mui/material';
 
 export function EncounterTableHead() {
   return (

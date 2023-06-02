@@ -1,5 +1,4 @@
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { Button, ButtonGroup } from '@mui/material';
 
 export function Counter({ data, decrement, increment }: CounterProps) {
   return (

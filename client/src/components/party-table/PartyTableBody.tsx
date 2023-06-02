@@ -1,11 +1,8 @@
 import { Clear } from '@mui/icons-material';
-import Button from '@mui/material/Button';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
+import { Button, TableBody, TableCell, TableRow } from '@mui/material';
 import { useMemo } from 'react';
-import Party from '../models/Party';
-import Counter from './Counter';
+import { Party } from '../../models';
+import Counter from '../Counter';
 
 export function PartyTableBody({ party, setParty }: PartyTableBodyProps) {
   const rows = useMemo(() => {

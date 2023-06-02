@@ -1,17 +1,13 @@
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import { Stack, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
-import Encounter from '../models/Encounter';
-import Party from '../models/Party';
-import Stats from '../models/Stats';
-import Thresholds from '../models/Thresholds';
+import { Encounter, Party, Stats, Thresholds } from '../models';
 import DetailsTable from './DetailsTable';
-import PartyTable from './PartyTable';
 import ThresholdsTable from './ThresholdsTable';
+import { DiscordAuth } from './auth';
 import { Bestiary } from './bestiary';
 import { EncounterTable } from './encounter-table';
+import { PartyTable } from './party-table';
 import d20 from '/src/assets/d20.png';
-import { DiscordAuth } from './auth/DiscordAuth';
 
 const defaultEncounter: Encounter = {};
 const defaultParty: Party = [{ level: 1, count: 1 }];

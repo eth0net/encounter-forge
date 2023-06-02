@@ -1,8 +1,7 @@
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-import { EncounterItem } from '../../models/Encounter';
-import Counter from '../Counter';
+import { TableCell, TableRow } from '@mui/material';
+import { EncounterItem } from '../../models';
 import ChallengeRating from '../ChallengeRating';
+import Counter from '../Counter';
 
 export function EncounterRow({ monster, count, remove, setCount }: EncounterRowProps) {
   const increment = () => {

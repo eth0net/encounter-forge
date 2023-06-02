@@ -1,8 +1,8 @@
 import { Table, TableContainer } from '@mui/material';
-import Encounter from '../../models/Encounter';
+import { Encounter } from '../../models';
+import Section from '../Section';
 import EncounterTableBody from './EncounterTableBody';
 import EncounterTableHead from './EncounterTableHead';
-import Section from '../Section';
 
 export function EncounterTable(props: EncounterTableProps) {
   return (
