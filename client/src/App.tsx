@@ -3,7 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import './App.css';
-import Forge from './components/Forge';
+import Forge from './pages/Forge';
 
 const queryClient = new QueryClient()
 
