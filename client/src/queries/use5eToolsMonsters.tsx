@@ -1,11 +1,11 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getIndex, getSource, hydrateSourceMonster } from "../../api/bestiary";
-import { Monster } from "../../models/Monster";
+import { getIndex, getSource, hydrateSourceMonster } from "../api/bestiary";
+import { Monster } from "../models/Monster";
 
-function use5eTools(enabled: boolean) {
+function use5eToolsMonsters(enabled: boolean) {
   const index = useQuery({
-    queryKey: ['bestiary', 'source', 'index'],
+    queryKey: ['5etools', 'source', 'index'],
     queryFn: getIndex,
     enabled,
   });
@@ -15,7 +15,7 @@ function use5eTools(enabled: boolean) {
   const queries = useMemo(() => {
     return Object.entries(index.data || {})
       .map(([name, path]) => ({
-        queryKey: ['bestiary', 'source', name, path],
+        queryKey: ['5etools', 'source', name, path],
         queryFn: () => getSource(path),
         enabled: enabled && index.isSuccess,
       }));
@@ -39,4 +39,4 @@ function use5eTools(enabled: boolean) {
   return { monsters };
 }
 
-export default use5eTools;
+export default use5eToolsMonsters;

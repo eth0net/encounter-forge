@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { usePocketBaseAuth } from '../../queries/pocketbase/usePocketBase';
+import { usePocketBaseAuth } from '../../queries/usePocketBaseAuth';
 import discordIcon from '/src/assets/discord.svg';
 
 export function DiscordAuth() {
