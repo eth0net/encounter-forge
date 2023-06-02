@@ -1,7 +1,7 @@
 import { Button, Stack, Table, TableContainer, TablePagination, TextField } from '@mui/material';
 import { useMemo, useState } from "react";
+import { useBestiary } from '../../hooks/useBestiary';
 import { Encounter, Monster } from "../../models";
-import { useBestiary } from '../../queries/useBestiary';
 import Section from '../Section';
 import { BestiaryBody } from './BestiaryBody';
 import { BestiaryHead, Order } from './BestiaryHead';
