@@ -1,22 +1,24 @@
 import { Button, Stack, Table, TableContainer, TablePagination, TextField } from '@mui/material';
 import { useMemo, useState } from "react";
-import { useBestiary } from '../../hooks/useBestiary';
-import { Encounter, Monster } from "../../models";
+import { Monster } from "../../models";
 import Section from '../Section';
 import { BestiaryBody } from './BestiaryBody';
 import { BestiaryHead, Order } from './BestiaryHead';
 
 export function Bestiary(props: BestiaryProps) {
-  const [enable5eTools, setEnable5eTools] = useState(false);
-  const { monsters } = useBestiary({ enable5eTools });
-
-  const [page, setPage] = useState(0);
-  const rowsPerPage = 10;
-
-  const [search, setSearch] = useState('');
+  const {
+    bestiary: { monsters },
+    enable5eTools,
+    setEnable5eTools,
+    search,
+    setSearch,
+  } = props;
 
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof Monster>('name');
+
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 10;
 
   const onSort = (_: React.MouseEvent, property: keyof Monster) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -24,19 +26,13 @@ export function Bestiary(props: BestiaryProps) {
     setOrderBy(property);
   };
 
-  const filteredData = useMemo(() => {
-    return monsters.filter(monster => {
-      return monster.name.toLowerCase().includes(search.toLowerCase());
-    });
-  }, [monsters, search]);
-
   const sortedData = useMemo(() => {
-    return filteredData.sort((a, b) => {
+    return monsters.sort((a, b) => {
       if (a[orderBy] < b[orderBy]) return order === 'asc' ? -1 : 1;
       if (a[orderBy] > b[orderBy]) return order === 'asc' ? 1 : -1;
       return 0;
     });
-  }, [filteredData, order, orderBy]);
+  }, [monsters, order, orderBy]);
 
   const visibleData = useMemo(() => {
     return sortedData.slice(
@@ -83,7 +79,17 @@ export function Bestiary(props: BestiaryProps) {
 }
 
 export interface BestiaryProps {
-  setEncounter: React.Dispatch<React.SetStateAction<Encounter>>;
+  addMonster: (monster: Monster, count?: number) => void;
+  bestiary: {
+    monsters: Monster[];
+    monsterCount: number;
+    filtered: Monster[];
+    filteredCount: number;
+  };
+  enable5eTools: boolean;
+  setEnable5eTools: React.Dispatch<React.SetStateAction<boolean>>;
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default Bestiary;

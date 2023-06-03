@@ -1,38 +1,33 @@
 import { useMemo } from 'react';
-import { Party, Thresholds } from '../models';
+import { Party } from '../models';
+import { Thresholds } from '../models/Thresholds';
 
 const xp_table: Thresholds[] = [
-  { easy: 25, medium: 50, hard: 75, deadly: 100, daily: 300 },
-  { easy: 50, medium: 100, hard: 150, deadly: 200, daily: 600 },
-  { easy: 75, medium: 150, hard: 225, deadly: 400, daily: 1200 },
-  { easy: 125, medium: 250, hard: 375, deadly: 500, daily: 1700 },
-  { easy: 250, medium: 500, hard: 750, deadly: 1100, daily: 3500 },
-  { easy: 300, medium: 600, hard: 900, deadly: 1400, daily: 4000 },
-  { easy: 350, medium: 750, hard: 1100, deadly: 1700, daily: 5000 },
-  { easy: 450, medium: 900, hard: 1400, deadly: 2100, daily: 6000 },
-  { easy: 550, medium: 1100, hard: 1600, deadly: 2400, daily: 7500 },
-  { easy: 600, medium: 1200, hard: 1900, deadly: 2800, daily: 9000 },
-  { easy: 800, medium: 1600, hard: 2400, deadly: 3600, daily: 10500 },
-  { easy: 1000, medium: 2000, hard: 3000, deadly: 4500, daily: 11500 },
-  { easy: 1100, medium: 2200, hard: 3400, deadly: 5100, daily: 13500 },
-  { easy: 1250, medium: 2500, hard: 3800, deadly: 5700, daily: 15000 },
-  { easy: 1400, medium: 2800, hard: 4300, deadly: 6400, daily: 18000 },
-  { easy: 1600, medium: 3200, hard: 4800, deadly: 7200, daily: 20000 },
-  { easy: 2000, medium: 3900, hard: 5900, deadly: 8800, daily: 25000 },
-  { easy: 2100, medium: 4200, hard: 6300, deadly: 9500, daily: 27000 },
-  { easy: 2400, medium: 4900, hard: 7300, deadly: 10900, daily: 30000 },
-  { easy: 2800, medium: 5700, hard: 8500, deadly: 12700, daily: 40000 },
+  new Thresholds(25, 50, 75, 100, 300),
+  new Thresholds(50, 100, 150, 200, 600),
+  new Thresholds(75, 150, 225, 400, 1200),
+  new Thresholds(125, 250, 375, 500, 1700),
+  new Thresholds(250, 500, 750, 1100, 3500),
+  new Thresholds(300, 600, 900, 1400, 4000),
+  new Thresholds(350, 750, 1100, 1700, 5000),
+  new Thresholds(450, 900, 1400, 2100, 6000),
+  new Thresholds(550, 1100, 1600, 2400, 7500),
+  new Thresholds(600, 1200, 1900, 2800, 9000),
+  new Thresholds(800, 1600, 2400, 3600, 10500),
+  new Thresholds(1000, 2000, 3000, 4500, 11500),
+  new Thresholds(1100, 2200, 3400, 5100, 13500),
+  new Thresholds(1250, 2500, 3800, 5700, 15000),
+  new Thresholds(1400, 2800, 4300, 6400, 18000),
+  new Thresholds(1600, 3200, 4800, 7200, 20000),
+  new Thresholds(2000, 3900, 5900, 8800, 25000),
+  new Thresholds(2100, 4200, 6300, 9500, 27000),
+  new Thresholds(2400, 4900, 7300, 10900, 30000),
+  new Thresholds(2800, 5700, 8500, 12700, 40000),
 ];
 
 export function useThresholds(party: Party) {
   return useMemo(() => {
-    const thresholds: Thresholds = {
-      easy: 0,
-      medium: 0,
-      hard: 0,
-      deadly: 0,
-      daily: 0,
-    };
+    const thresholds = new Thresholds();
 
     party.forEach(({ level, count }) => {
       const index = level - 1;

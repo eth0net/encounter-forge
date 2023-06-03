@@ -1,30 +1,23 @@
 import TableBody from '@mui/material/TableBody';
 import { useMemo } from 'react';
-import { Encounter } from '../../models';
+import { Encounter, Monster } from '../../models';
 import EncounterTableRow from './EncounterTableRow';
 
-export function EncounterTableBody({ encounter, setEncounter }: EncounterTableBodyProps) {
+export function EncounterTableBody({ encounter, addMonster, removeMonster }: EncounterTableBodyProps) {
   const rows = useMemo(() => {
-    return Object.entries(encounter).map(([id, row], idx) => {
-      const setCount = (count: number) => setEncounter((prev) => {
-        return { ...prev, [id]: { ...row, count } };
-      });
-
-      const remove = () => setEncounter((prev) => {
-        const next = { ...prev };
-        delete next[id];
-        return next;
-      });
-
+    return Object.values(encounter).map((row, idx) => {
+      const add = (count = 1) => addMonster(row.monster, count);
+      const remove = (count = 1) => removeMonster(row.monster, count);
       return (
         <EncounterTableRow
           key={idx}
-          setCount={setCount}
+          add={add}
           remove={remove}
-          {...row} />
+          {...row}
+        />
       );
     });
-  }, [encounter, setEncounter]);
+  }, [encounter, addMonster, removeMonster]);
 
   return (
     <TableBody>
@@ -35,6 +28,7 @@ export function EncounterTableBody({ encounter, setEncounter }: EncounterTableBo
 
 export interface EncounterTableBodyProps {
   encounter: Encounter;
-  setEncounter: React.Dispatch<React.SetStateAction<Encounter>>;
+  addMonster: (monster: Monster, count?: number) => void;
+  removeMonster: (monster: Monster, count?: number) => void;
 }
 export default EncounterTableBody;

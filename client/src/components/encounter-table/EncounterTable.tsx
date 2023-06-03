@@ -1,5 +1,5 @@
 import { Table, TableContainer } from '@mui/material';
-import { Encounter } from '../../models';
+import { Encounter, Monster } from '../../models';
 import Section from '../Section';
 import EncounterTableBody from './EncounterTableBody';
 import EncounterTableHead from './EncounterTableHead';
@@ -19,7 +19,8 @@ export function EncounterTable(props: EncounterTableProps) {
 
 export interface EncounterTableProps {
   encounter: Encounter;
-  setEncounter: React.Dispatch<React.SetStateAction<Encounter>>;
+  addMonster: (monster: Monster, count?: number) => void;
+  removeMonster: (monster: Monster, count?: number) => void;
 }
 
 export default EncounterTable;

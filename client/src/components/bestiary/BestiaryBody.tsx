@@ -1,19 +1,13 @@
 import { Add } from '@mui/icons-material';
 import { Button, TableBody, TableCell, TableRow } from '@mui/material';
 import { useMemo } from "react";
-import { Encounter, Monster } from "../../models";
+import { Monster } from "../../models";
 import ChallengeRating from "../ChallengeRating";
 
-export function BestiaryBody({ monsters: monsters, setEncounter }: LibraryBodyProps) {
+export function BestiaryBody({ monsters, addMonster }: LibraryBodyProps) {
   const rows = useMemo(() => {
     return monsters.map((monster, index) => {
-      const add = () => setEncounter((prev) => {
-        const next = { ...prev };
-        next[monster.id] || (next[monster.id] = { monster, count: 0 });
-        next[monster.id] && (next[monster.id].count += 1);
-        return next;
-      });
-
+      const add = () => addMonster(monster);
       return (
         <TableRow key={index}>
           <TableCell>{monster.name}</TableCell>
@@ -28,7 +22,7 @@ export function BestiaryBody({ monsters: monsters, setEncounter }: LibraryBodyPr
         </TableRow>
       );
     });
-  }, [monsters, setEncounter]);
+  }, [monsters, addMonster]);
 
   return (
     <TableBody>
@@ -38,7 +32,7 @@ export function BestiaryBody({ monsters: monsters, setEncounter }: LibraryBodyPr
 }
 
 export interface LibraryBodyProps {
-  setEncounter: React.Dispatch<React.SetStateAction<Encounter>>;
+  addMonster: (monster: Monster, count?: number) => void;
   monsters: Monster[];
 }
 

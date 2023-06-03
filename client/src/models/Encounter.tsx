@@ -1,10 +1,10 @@
 import Monster from "./Monster";
 
 export interface Encounter {
-  [key: string]: EncounterItem;
+  [id: string]: MonsterCount;
 }
 
-export interface EncounterItem {
+export interface MonsterCount {
   monster: Monster;
   count: number;
 }
