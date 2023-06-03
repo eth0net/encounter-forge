@@ -1,12 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { listMonsters } from "../api/pocketbase";
 import { Monster } from "../models/Monster";
+import { usePocketBase } from "./usePocketBase";
 
 export function usePocketBaseMonsters() {
+  const pb = usePocketBase();
+
   const { data, ...result } = useQuery({
     queryKey: ["pocketbase", "monsters", "list"],
-    queryFn: listMonsters,
+    queryFn: async () => {
+      return await pb
+        .collection('monsters')
+        .getFullList();
+    },
   });
 
   const monsters = useMemo(() => {

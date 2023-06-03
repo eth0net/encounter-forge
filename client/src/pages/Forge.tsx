@@ -2,16 +2,18 @@ import { Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import DetailsTable from '../components/DetailsTable';
 import ThresholdsTable from '../components/ThresholdsTable';
-import { DiscordAuth } from '../components/auth';
+import { DiscordAuth, Logout } from '../components/auth';
 import { Bestiary } from '../components/bestiary';
 import { EncounterTable } from '../components/encounter-table';
 import { PartyTable } from '../components/party-table';
+import usePocketBaseAuth from '../hooks/usePocketBaseAuth';
 import { useStats } from '../hooks/useStats';
 import { useThresholds } from '../hooks/useThresholds';
 import { Encounter, Party } from '../models';
 import d20 from '/src/assets/d20.png';
 
 export function Forge() {
+  const { authWithDiscord, clearAuth, isAuthed } = usePocketBaseAuth();
   const [party, setParty] = useState<Party>([{ level: 1, count: 1 }]);
   const [encounter, setEncounter] = useState<Encounter>({});
   const thresholds = useThresholds(party);
@@ -26,7 +28,8 @@ export function Forge() {
         </Stack>
 
         <Stack direction='row' alignItems='center' justifyContent='center' spacing={2}>
-          <DiscordAuth />
+          {!isAuthed && <DiscordAuth authFn={authWithDiscord} />}
+          {isAuthed && <Logout onClick={clearAuth} />}
         </Stack>
       </Stack >
 

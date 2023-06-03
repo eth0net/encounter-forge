@@ -1,9 +1,13 @@
 import { useMediaQuery } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import PocketBase from 'pocketbase';
 import { useMemo } from 'react';
 import './App.css';
+import { PocketBaseProvider } from "./contexts/PocketBaseProvider";
 import Forge from './pages/Forge';
+
+const pocketBase = new PocketBase('http://127.0.0.1:8090');
 
 const queryClient = new QueryClient()
 
@@ -28,11 +32,13 @@ function App() {
   const theme = useMemo(themeCreator, [prefersDarkMode]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <Forge />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <PocketBaseProvider client={pocketBase}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <Forge />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </PocketBaseProvider>
   );
 }
 

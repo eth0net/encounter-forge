@@ -1,13 +1,10 @@
 import { Button } from '@mui/material';
-import { usePocketBaseAuth } from '../../hooks/usePocketBaseAuth';
 import discordIcon from '/src/assets/discord.svg';
 
-export function DiscordAuth() {
-  const { authWithDiscord } = usePocketBaseAuth();
-
+export function DiscordAuth({ authFn }: DiscordAuthProps) {
   return (
     <Button
-      onClick={authWithDiscord}
+      onClick={authFn}
       variant='contained'
       sx={{ background: "#5865F2", color: 'white' }}
       endIcon={<img src={discordIcon} alt="discord" height={16} />}
@@ -15,6 +12,10 @@ export function DiscordAuth() {
       Login with Discord
     </Button >
   );
+}
+
+export interface DiscordAuthProps {
+  authFn: () => void;
 }
 
 export default DiscordAuth;
