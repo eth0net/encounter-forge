@@ -11,7 +11,7 @@ export const PocketBaseProvider = ({
   );
 };
 
-export type PocketBaseProviderProps = {
+export interface PocketBaseProviderProps {
   client: PocketBase;
   children?: React.ReactNode;
 };
