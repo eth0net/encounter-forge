@@ -47,12 +47,13 @@ export function Bestiary(props: BestiaryProps) {
 
   return (
     <Section title='Bestiary'>
-      <Stack direction='row' justifyContent='space-between' alignItems='center'>
+      <Stack direction='row' justifyContent='space-between' alignItems='center' spacing={4}>
         <TextField
           label='Search'
           value={search}
           onChange={e => setSearch(e.target.value)}
           size='small'
+          style={{ flexGrow: 1 }}
         />
         <Button
           variant='contained'
