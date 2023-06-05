@@ -1,5 +1,7 @@
 import { Button, Stack, Table, TableContainer, TablePagination, TextField } from '@mui/material';
 import { useMemo, useState } from "react";
+import { BestiaryManager } from '../../hooks/useBestiaryManager';
+import { EncounterManager } from '../../hooks/useEncounterManager';
 import { Monster } from "../../models";
 import Section from '../Section';
 import { BestiaryBody } from './BestiaryBody';
@@ -7,7 +9,8 @@ import { BestiaryHead, Order } from './BestiaryHead';
 
 export const Bestiary = (props: BestiaryProps) => {
   const {
-    bestiary: { monsters },
+    bestiaryManager: { filtered },
+    encounterManager,
     enable5eTools,
     setEnable5eTools,
     search,
@@ -27,12 +30,12 @@ export const Bestiary = (props: BestiaryProps) => {
   };
 
   const sortedData = useMemo(() => {
-    return monsters.sort((a, b) => {
+    return filtered.sort((a, b) => {
       if (a[orderBy] < b[orderBy]) return order === 'asc' ? -1 : 1;
       if (a[orderBy] > b[orderBy]) return order === 'asc' ? 1 : -1;
       return 0;
     });
-  }, [monsters, order, orderBy]);
+  }, [filtered, order, orderBy]);
 
   const visibleData = useMemo(() => {
     return sortedData.slice(
@@ -60,12 +63,17 @@ export const Bestiary = (props: BestiaryProps) => {
           5eTools
         </Button>
       </Stack>
+
       <TableContainer>
         <Table>
           <BestiaryHead onSort={onSort} order={order} orderBy={orderBy} />
-          <BestiaryBody monsters={visibleData} {...props} />
+          <BestiaryBody
+            encounterManager={encounterManager}
+            monsters={visibleData}
+          />
         </Table>
       </TableContainer>
+
       <TablePagination
         component='div'
         count={sortedData.length}
@@ -79,13 +87,8 @@ export const Bestiary = (props: BestiaryProps) => {
 };
 
 export interface BestiaryProps {
-  addMonster: (monster: Monster, count?: number) => void;
-  bestiary: {
-    monsters: Monster[];
-    monsterCount: number;
-    filtered: Monster[];
-    filteredCount: number;
-  };
+  bestiaryManager: BestiaryManager;
+  encounterManager: EncounterManager;
   enable5eTools: boolean;
   setEnable5eTools: React.Dispatch<React.SetStateAction<boolean>>;
   search: string;

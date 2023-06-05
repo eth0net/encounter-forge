@@ -1,16 +1,16 @@
 import { Table, TableContainer } from '@mui/material';
-import { Encounter, Monster } from '../../models';
 import Section from '../Section';
 import EncounterTableBody from './EncounterTableBody';
 import EncounterTableHead from './EncounterTableHead';
+import { EncounterManager } from '../../hooks/useEncounterManager';
 
-export const EncounterTable = ({ flexGrow = 0, ...props }: EncounterTableProps) => {
+export const EncounterTable = ({ flexGrow = 0, encounterManager }: EncounterTableProps) => {
   return (
     <Section title='Encounter' paperProps={{ style: { flexGrow } }}>
       <TableContainer>
         <Table>
           <EncounterTableHead />
-          <EncounterTableBody {...props} />
+          <EncounterTableBody encounterManager={encounterManager} />
         </Table>
       </TableContainer>
     </Section >
@@ -19,9 +19,7 @@ export const EncounterTable = ({ flexGrow = 0, ...props }: EncounterTableProps) 
 
 export interface EncounterTableProps {
   flexGrow?: number;
-  encounter: Encounter;
-  addMonster: (monster: Monster, count?: number) => void;
-  removeMonster: (monster: Monster, count?: number) => void;
+  encounterManager: EncounterManager;
 }
 
 export default EncounterTable;

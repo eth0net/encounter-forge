@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Encounter, Monster } from '../models';
 
-export const useEncounter = () => {
+export const useEncounterManager = () => {
   const [encounter, setEncounter] = useState<Encounter>({});
 
   const xp = useMemo(() => {
@@ -33,7 +33,7 @@ export const useEncounter = () => {
     setEncounter(newEncounter);
   };
 
-  const randomiseEncounter = (monsters: Monster[], minXP: number, maxXP: number) => {
+  const randomise = (monsters: Monster[], minXP: number, maxXP: number) => {
     const encounter: Encounter = {};
     let xp = 0;
 
@@ -66,7 +66,11 @@ export const useEncounter = () => {
     setEncounter,
     addMonster,
     removeMonster,
-    randomiseEncounter,
+    randomise,
     xp,
   };
 };
+
+export type EncounterManager = ReturnType<typeof useEncounterManager>;
+
+export default useEncounterManager;

@@ -1,9 +1,11 @@
 import { TableBody } from '@mui/material';
 import { useMemo } from 'react';
-import { Encounter, Monster } from '../../models';
 import EncounterTableRow from './EncounterTableRow';
+import { EncounterManager } from '../../hooks/useEncounterManager';
 
-export const EncounterTableBody = ({ encounter, addMonster, removeMonster }: EncounterTableBodyProps) => {
+export const EncounterTableBody = ({ encounterManager }: EncounterTableBodyProps) => {
+  const { encounter, addMonster, removeMonster } = encounterManager;
+
   const rows = useMemo(() => {
     return Object.values(encounter).map((row, idx) => {
       const add = (count = 1) => addMonster(row.monster, count);
@@ -27,9 +29,7 @@ export const EncounterTableBody = ({ encounter, addMonster, removeMonster }: Enc
 };
 
 export interface EncounterTableBodyProps {
-  encounter: Encounter;
-  addMonster: (monster: Monster, count?: number) => void;
-  removeMonster: (monster: Monster, count?: number) => void;
+  encounterManager: EncounterManager;
 }
 
 export default EncounterTableBody;

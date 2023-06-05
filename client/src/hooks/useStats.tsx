@@ -24,7 +24,6 @@ export const useStats = (party: Party, encounter: Encounter, thresholds: Thresho
   }, [encounter, party, thresholds]);
 };
 
-
 const applyXP = (stats: Stats, encounter: Encounter) => {
   Object.values(encounter).forEach(({ monster: { cr, xp }, count }) => {
     stats.cr += cr * count;
