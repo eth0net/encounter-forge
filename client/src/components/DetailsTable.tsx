@@ -3,7 +3,7 @@ import { Stats } from '../models';
 import Section from './Section';
 import StatRow from './StatRow';
 
-export function DetailsTable({ stats }: DetailsTableProps) {
+export const DetailsTable = ({ stats }: DetailsTableProps) => {
   return (
     <Section title="Details">
       <TableContainer>
@@ -19,7 +19,7 @@ export function DetailsTable({ stats }: DetailsTableProps) {
       </TableContainer>
     </Section>
   );
-}
+};
 
 export interface DetailsTableProps {
   stats: Stats;

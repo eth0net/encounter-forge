@@ -1,9 +1,9 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { getIndex, getSource, hydrateSourceMonster } from "../api/bestiary";
-import { Monster } from "../models/Monster";
+import Monster from "../models/Monster";
 
-function use5eToolsMonsters(enabled: boolean) {
+export const use5eToolsMonsters = (enabled: boolean) => {
   const index = useQuery({
     queryKey: ['5etools', 'source', 'index'],
     queryFn: getIndex,
@@ -37,6 +37,6 @@ function use5eToolsMonsters(enabled: boolean) {
   }, [sourceMonsters]);
 
   return { monsters };
-}
+};
 
 export default use5eToolsMonsters;

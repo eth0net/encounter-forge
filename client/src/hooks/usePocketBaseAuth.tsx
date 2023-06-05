@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePocketBase } from "./usePocketBase";
 
-export function usePocketBaseAuth() {
+export const usePocketBaseAuth = () => {
   const pb = usePocketBase();
 
   const [token, setToken] = useState(pb.authStore.token);
@@ -31,6 +31,6 @@ export function usePocketBaseAuth() {
   }, [pb.authStore.isValid]);
 
   return { authWithDiscord, clearAuth, isAuthed, token, model };
-}
+};
 
 export default usePocketBaseAuth;

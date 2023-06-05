@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Monster } from "../../models";
 import ChallengeRating from "../ChallengeRating";
 
-export function BestiaryBody({ monsters, addMonster }: LibraryBodyProps) {
+export const BestiaryBody = ({ monsters, addMonster }: LibraryBodyProps) => {
   const rows = useMemo(() => {
     return monsters.map((monster, index) => {
       const add = () => addMonster(monster);
@@ -29,7 +29,7 @@ export function BestiaryBody({ monsters, addMonster }: LibraryBodyProps) {
       {rows}
     </TableBody>
   );
-}
+};
 
 export interface LibraryBodyProps {
   addMonster: (monster: Monster, count?: number) => void;

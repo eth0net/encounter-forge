@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import discordIcon from '/src/assets/discord.svg';
 
-export function DiscordAuth({ authFn }: DiscordAuthProps) {
+export const DiscordAuth = ({ authFn }: DiscordAuthProps) => {
   return (
     <Button
       onClick={authFn}
@@ -12,7 +12,7 @@ export function DiscordAuth({ authFn }: DiscordAuthProps) {
       Login with Discord
     </Button >
   );
-}
+};
 
 export interface DiscordAuthProps {
   authFn: () => void;

@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Party } from '../../models';
 import Counter from '../Counter';
 
-export function PartyTableBody({ party, setParty }: PartyTableBodyProps) {
+export const PartyTableBody = ({ party, setParty }: PartyTableBodyProps) => {
   const rows = useMemo(() => {
     const levelIncrementor = (i: number) => () => {
       const newParty: Party = [...party];
@@ -60,7 +60,7 @@ export function PartyTableBody({ party, setParty }: PartyTableBodyProps) {
       {rows}
     </TableBody>
   );
-}
+};
 
 export interface PartyTableBodyProps {
   party: Party;

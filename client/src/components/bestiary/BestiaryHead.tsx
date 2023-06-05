@@ -1,7 +1,7 @@
 import { TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { Monster } from '../../models';
 
-export function BestiaryHead({ onSort, order, orderBy }: BestiaryHeadProps) {
+export const BestiaryHead = ({ onSort, order, orderBy }: BestiaryHeadProps) => {
   return (
     <TableHead>
       <TableRow>
@@ -26,7 +26,7 @@ export function BestiaryHead({ onSort, order, orderBy }: BestiaryHeadProps) {
       </TableRow>
     </TableHead>
   );
-}
+};
 
 export interface BestiaryHeadProps {
   onSort: (_: React.MouseEvent, property: keyof Monster) => void;

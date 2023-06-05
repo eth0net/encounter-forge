@@ -2,7 +2,24 @@ import { useMemo } from 'react';
 import { Party } from '../models';
 import { Thresholds } from '../models/Thresholds';
 
-const xp_table: Thresholds[] = [
+export const useThresholds = (party: Party) => {
+  return useMemo(() => {
+    const thresholds = new Thresholds();
+
+    party.forEach(({ level, count }) => {
+      const index = level - 1;
+      thresholds.easy += thresholds_table[index].easy * count ?? 0;
+      thresholds.medium += thresholds_table[index].medium * count ?? 0;
+      thresholds.hard += thresholds_table[index].hard * count ?? 0;
+      thresholds.deadly += thresholds_table[index].deadly * count ?? 0;
+      thresholds.daily += thresholds_table[index].daily * count ?? 0;
+    });
+
+    return thresholds;
+  }, [party]);
+};
+
+const thresholds_table = [
   new Thresholds(25, 50, 75, 100, 300),
   new Thresholds(50, 100, 150, 200, 600),
   new Thresholds(75, 150, 225, 400, 1200),
@@ -24,20 +41,3 @@ const xp_table: Thresholds[] = [
   new Thresholds(2400, 4900, 7300, 10900, 30000),
   new Thresholds(2800, 5700, 8500, 12700, 40000),
 ];
-
-export function useThresholds(party: Party) {
-  return useMemo(() => {
-    const thresholds = new Thresholds();
-
-    party.forEach(({ level, count }) => {
-      const index = level - 1;
-      thresholds.easy += xp_table[index].easy * count ?? 0;
-      thresholds.medium += xp_table[index].medium * count ?? 0;
-      thresholds.hard += xp_table[index].hard * count ?? 0;
-      thresholds.deadly += xp_table[index].deadly * count ?? 0;
-      thresholds.daily += xp_table[index].daily * count ?? 0;
-    });
-
-    return thresholds;
-  }, [party]);
-}

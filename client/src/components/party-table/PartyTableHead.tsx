@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 
-export function PartyTableHead() {
+export const PartyTableHead = () => {
   return (
     <TableHead>
       <TableRow>
@@ -10,5 +10,6 @@ export function PartyTableHead() {
       </TableRow>
     </TableHead>
   );
-}
+};
+
 export default PartyTableHead;

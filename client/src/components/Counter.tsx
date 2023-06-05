@@ -1,6 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material';
 
-export function Counter({ data, decrement, increment }: CounterProps) {
+export const Counter = ({ data, decrement, increment }: CounterProps) => {
   return (
     <ButtonGroup>
       <Button onClick={decrement} style={{ minWidth: 21, padding: 5 }}>
@@ -14,7 +14,7 @@ export function Counter({ data, decrement, increment }: CounterProps) {
       </Button>
     </ButtonGroup>
   );
-}
+};
 
 export interface CounterProps {
   data: number;

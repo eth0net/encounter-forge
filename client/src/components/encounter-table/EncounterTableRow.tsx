@@ -1,9 +1,9 @@
 import { TableCell, TableRow } from '@mui/material';
-import { EncounterItem, Monster } from '../../models';
+import { MonsterCount } from '../../models';
 import ChallengeRating from '../ChallengeRating';
 import Counter from '../Counter';
 
-export function EncounterRow({ monster, count, add, remove }: EncounterRowProps) {
+export const EncounterRow = ({ monster, count, add, remove }: EncounterRowProps) => {
   const increment = () => count < 99 && add();
   const decrement = () => remove();
   return (
@@ -22,11 +22,9 @@ export function EncounterRow({ monster, count, add, remove }: EncounterRowProps)
       </TableCell>
     </TableRow >
   );
-}
+};
 
-export interface EncounterRowProps extends EncounterItem {
-  monster: Monster;
-  count: number;
+export interface EncounterRowProps extends MonsterCount {
   add: (count?: number) => void;
   remove: (count?: number) => void;
 }

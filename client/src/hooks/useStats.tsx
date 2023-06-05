@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Encounter, Party, Stats, Thresholds } from '../models';
 
-export function useStats(party: Party, encounter: Encounter, thresholds: Thresholds) {
+export const useStats = (party: Party, encounter: Encounter, thresholds: Thresholds) => {
   return useMemo(() => {
     const stats: Stats = {
       difficulty: '',
@@ -22,18 +22,18 @@ export function useStats(party: Party, encounter: Encounter, thresholds: Thresho
 
     return stats;
   }, [encounter, party, thresholds]);
-}
+};
 
 
-function applyXP(stats: Stats, encounter: Encounter) {
+const applyXP = (stats: Stats, encounter: Encounter) => {
   Object.values(encounter).forEach(({ monster: { cr, xp }, count }) => {
     stats.cr += cr * count;
     stats.xp += xp * count;
     stats.count += count;
   });
-}
+};
 
-function applyMultiplier(partySize: number, stats: Stats) {
+const applyMultiplier = (partySize: number, stats: Stats) => {
   const modifiers = [1, 1.5, 2, 2.5, 3, 4];
 
   let index = 0;
@@ -55,9 +55,9 @@ function applyMultiplier(partySize: number, stats: Stats) {
     index--;
 
   stats.xpAdjusted = stats.xp * modifiers[index];
-}
+};
 
-function applyDifficulty(stats: Stats, thresholds: Thresholds) {
+const applyDifficulty = (stats: Stats, thresholds: Thresholds) => {
   if (stats.xp < thresholds.easy) {
     stats.difficulty = 'Trivial';
   } else if (stats.xp < thresholds.medium) {
@@ -69,4 +69,4 @@ function applyDifficulty(stats: Stats, thresholds: Thresholds) {
   } else {
     stats.difficulty = 'Deadly';
   }
-}
+};

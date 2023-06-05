@@ -14,7 +14,7 @@ import { useThresholds } from '../hooks/useThresholds';
 import { Party } from '../models';
 import d20 from '/src/assets/d20.png';
 
-export function Forge() {
+export const Forge = () => {
   const { authWithDiscord, clearAuth, isAuthed } = usePocketBaseAuth();
   const [party, setParty] = useState<Party>([{ level: 1, count: 1 }]);
   const { encounter, addMonster, removeMonster, randomiseEncounter } = useEncounter();
@@ -66,6 +66,6 @@ export function Forge() {
       </Stack>
     </>
   );
-}
+};
 
 export default Forge;

@@ -4,7 +4,7 @@ import Section from '../Section';
 import PartyTableBody from './PartyTableBody';
 import PartyTableHead from './PartyTableHead';
 
-export function PartyTable({ party, setParty }: PartyTableProps) {
+export const PartyTable = ({ party, setParty }: PartyTableProps) => {
   const addGroup = () => setParty(party => [...party, { level: 1, count: 1 }]);
 
   return (
@@ -22,7 +22,7 @@ export function PartyTable({ party, setParty }: PartyTableProps) {
       </Stack>
     </Section>
   );
-}
+};
 
 export interface PartyTableProps {
   party: Party;

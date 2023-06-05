@@ -5,7 +5,7 @@ import Section from '../Section';
 import { BestiaryBody } from './BestiaryBody';
 import { BestiaryHead, Order } from './BestiaryHead';
 
-export function Bestiary(props: BestiaryProps) {
+export const Bestiary = (props: BestiaryProps) => {
   const {
     bestiary: { monsters },
     enable5eTools,
@@ -76,7 +76,7 @@ export function Bestiary(props: BestiaryProps) {
       />
     </Section >
   );
-}
+};
 
 export interface BestiaryProps {
   addMonster: (monster: Monster, count?: number) => void;

@@ -1,21 +1,9 @@
-import { Shuffle } from '@mui/icons-material';
-import { Button, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { Thresholds } from '../models';
+import Generate from './Generate';
 import Section from './Section';
 
-export function Generate({ onClick }: GenerateProps) {
-  return (
-    <Button onClick={onClick} sx={{ minWidth: 'unset', padding: '5px' }}>
-      <Shuffle />
-    </Button>
-  );
-}
-
-export interface GenerateProps {
-  onClick: () => void;
-}
-
-export function ThresholdsTable({ thresholds, generateEncounter }: ThresholdsTableProps) {
+export const ThresholdsTable = ({ thresholds, generateEncounter }: ThresholdsTableProps) => {
   return (
     <Section title="Thresholds">
       <TableContainer>
@@ -85,7 +73,7 @@ export function ThresholdsTable({ thresholds, generateEncounter }: ThresholdsTab
       </TableContainer>
     </Section>
   );
-}
+};
 
 export interface ThresholdsTableProps {
   thresholds: Thresholds;

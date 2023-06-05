@@ -5,15 +5,15 @@ const baseURL = 'https://raw.githubusercontent.com/5etools-mirror-1/5etools-mirr
 
 const bestiary = axios.create({ baseURL });
 
-export async function getIndex() {
+export const getIndex = async () => {
   return await bestiary.get('index.json')
     .then(r => r.data as Index);
-}
+};
 
-export async function getSource(path: string) {
+export const getSource = async (path: string) => {
   return await bestiary.get(path)
     .then(r => r.data as Source);
-}
+};
 
 export interface Index {
   [key: string]: string;
@@ -33,7 +33,7 @@ export interface SourceMonster {
   };
 }
 
-export function hydrateSourceMonster(monster: SourceMonster, monsters: SourceMonster[]): SourceMonster {
+export const hydrateSourceMonster = (monster: SourceMonster, monsters: SourceMonster[]): SourceMonster => {
   if (!monster._copy) return monster;
 
   const src = monsters.find(({ name, source }) =>

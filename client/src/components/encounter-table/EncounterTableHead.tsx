@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 
-export function EncounterTableHead() {
+export const EncounterTableHead = () => {
   return (
     <TableHead>
       <TableRow>
@@ -11,6 +11,6 @@ export function EncounterTableHead() {
       </TableRow>
     </TableHead>
   );
-}
+};
 
 export default EncounterTableHead;

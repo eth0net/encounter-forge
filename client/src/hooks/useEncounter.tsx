@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Encounter, Monster } from '../models';
 
-export function useEncounter() {
+export const useEncounter = () => {
   const [encounter, setEncounter] = useState<Encounter>({});
 
   const xp = useMemo(() => {
@@ -69,4 +69,4 @@ export function useEncounter() {
     randomiseEncounter,
     xp,
   };
-}
+};

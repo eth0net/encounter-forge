@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-export function ChallengeRating({ children }: ChallengeRatingProps) {
+export const ChallengeRating = ({ children }: ChallengeRatingProps) => {
   const fraction = useMemo(() => {
     const whole = Math.floor(children);
     const fraction = children - whole;
@@ -36,7 +36,7 @@ export function ChallengeRating({ children }: ChallengeRatingProps) {
   return (
     <span>{fraction}</span>
   );
-}
+};
 
 export interface ChallengeRatingProps {
   children: number;

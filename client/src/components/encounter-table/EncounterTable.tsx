@@ -4,7 +4,7 @@ import Section from '../Section';
 import EncounterTableBody from './EncounterTableBody';
 import EncounterTableHead from './EncounterTableHead';
 
-export function EncounterTable(props: EncounterTableProps) {
+export const EncounterTable = (props: EncounterTableProps) => {
   return (
     <Section title='Encounter'>
       <TableContainer>
@@ -15,7 +15,7 @@ export function EncounterTable(props: EncounterTableProps) {
       </TableContainer>
     </Section >
   );
-}
+};
 
 export interface EncounterTableProps {
   encounter: Encounter;

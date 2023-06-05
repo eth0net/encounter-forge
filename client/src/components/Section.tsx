@@ -1,6 +1,6 @@
 import { Paper, Stack, Typography } from '@mui/material';
 
-export function Section({ title, children, paperProps, stackProps }: SectionProps) {
+export const Section = ({ title, children, paperProps, stackProps }: SectionProps) => {
   return (
     <Paper elevation={4} {...paperProps}>
       <Stack spacing={1} p={2} {...stackProps}>
@@ -9,7 +9,7 @@ export function Section({ title, children, paperProps, stackProps }: SectionProp
       </Stack>
     </Paper>
   );
-}
+};
 
 export interface SectionProps {
   title: string;
