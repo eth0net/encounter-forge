@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PocketBase from 'pocketbase';
 import { useMemo } from 'react';
 import './App.css';
+import NavBar from './components/NavBar';
 import { PocketBaseProvider } from "./contexts/PocketBaseProvider";
 import Forge from './pages/Forge';
 
@@ -35,6 +36,8 @@ function App() {
     <PocketBaseProvider client={pocketBase}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
+          <NavBar />
+
           <Forge />
         </ThemeProvider>
       </QueryClientProvider>

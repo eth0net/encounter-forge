@@ -4,11 +4,15 @@ import Section from '../Section';
 import PartyTableBody from './PartyTableBody';
 import PartyTableHead from './PartyTableHead';
 
-export const PartyTable = ({ party, setParty }: PartyTableProps) => {
+export const PartyTable = ({
+  flexGrow = 0,
+  party,
+  setParty,
+}: PartyTableProps) => {
   const addGroup = () => setParty(party => [...party, { level: 1, count: 1 }]);
 
   return (
-    <Section title='Party'>
+    <Section title='Party' paperProps={{ style: { flexGrow } }}>
       <TableContainer>
         <Table>
           <PartyTableHead />
@@ -25,6 +29,7 @@ export const PartyTable = ({ party, setParty }: PartyTableProps) => {
 };
 
 export interface PartyTableProps {
+  flexGrow?: number;
   party: Party;
   setParty: React.Dispatch<React.SetStateAction<Party>>;
 }

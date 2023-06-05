@@ -4,9 +4,9 @@ import Section from '../Section';
 import EncounterTableBody from './EncounterTableBody';
 import EncounterTableHead from './EncounterTableHead';
 
-export const EncounterTable = (props: EncounterTableProps) => {
+export const EncounterTable = ({ flexGrow = 0, ...props }: EncounterTableProps) => {
   return (
-    <Section title='Encounter'>
+    <Section title='Encounter' paperProps={{ style: { flexGrow } }}>
       <TableContainer>
         <Table>
           <EncounterTableHead />
@@ -18,6 +18,7 @@ export const EncounterTable = (props: EncounterTableProps) => {
 };
 
 export interface EncounterTableProps {
+  flexGrow?: number;
   encounter: Encounter;
   addMonster: (monster: Monster, count?: number) => void;
   removeMonster: (monster: Monster, count?: number) => void;
