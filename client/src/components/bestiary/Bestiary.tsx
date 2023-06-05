@@ -1,4 +1,4 @@
-import { Button, Stack, Table, TableContainer, TablePagination, TextField } from '@mui/material';
+import { Button, Divider, Stack, Table, TableContainer, TablePagination, TextField } from '@mui/material';
 import { useMemo, useState } from "react";
 import { BestiaryManager } from '../../hooks/useBestiaryManager';
 import { EncounterManager } from '../../hooks/useEncounterManager';
@@ -15,6 +15,7 @@ export const Bestiary = (props: BestiaryProps) => {
     setEnable5eTools,
     search,
     setSearch,
+    flexGrow = 0,
   } = props;
 
   const [order, setOrder] = useState<Order>('asc');
@@ -45,7 +46,7 @@ export const Bestiary = (props: BestiaryProps) => {
   }, [sortedData, page, rowsPerPage]);
 
   return (
-    <Section title='Bestiary'>
+    <Section title='Bestiary' paperProps={{ style: { flexGrow } }}>
       <Stack direction='row' justifyContent='space-between' alignItems='center' spacing={4}>
         <TextField
           label='Search'
@@ -93,6 +94,7 @@ export interface BestiaryProps {
   setEnable5eTools: React.Dispatch<React.SetStateAction<boolean>>;
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
+  flexGrow?: number;
 }
 
 export default Bestiary;

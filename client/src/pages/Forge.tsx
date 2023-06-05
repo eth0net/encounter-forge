@@ -53,6 +53,7 @@ export const Forge = () => {
             setEnable5eTools={setEnable5eTools}
             search={search}
             setSearch={setSearch}
+            flexGrow={1}
           />
         </Stack>
       </Stack>
