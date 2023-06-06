@@ -2,7 +2,9 @@ import { useMemo } from "react";
 import use5eToolsMonsters from "./use5eToolsMonsters";
 import usePocketBaseMonsters from "./usePocketBaseMonsters";
 
-export const useBestiaryManager = ({ enable5eTools = false, search = '' }: useBestiaryManagerProps) => {
+export const useBestiaryManager = (props: useBestiaryManagerProps) => {
+  const { enable5eTools = false, search = '' } = props;
+
   const { monsters: m5e } = use5eToolsMonsters(enable5eTools);
   const { monsters: mpb } = usePocketBaseMonsters();
 

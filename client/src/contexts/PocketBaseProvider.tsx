@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase';
-import { PocketBaseContext } from './PocketBaseContext';
+import PocketBaseContext from './PocketBaseContext';
 
 export const PocketBaseProvider = ({
   children, client
@@ -15,3 +15,5 @@ export interface PocketBaseProviderProps {
   client: PocketBase;
   children?: React.ReactNode;
 };
+
+export default PocketBaseProvider;

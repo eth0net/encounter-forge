@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { usePocketBase } from "./usePocketBase";
+import usePocketBase from "./usePocketBase";
 
 export const usePocketBaseAuth = () => {
   const pb = usePocketBase();

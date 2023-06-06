@@ -2,70 +2,60 @@ import { useMemo } from 'react';
 import { Encounter, Party, Stats, Thresholds } from '../models';
 
 export const useStats = (party: Party, encounter: Encounter, thresholds: Thresholds) => {
-  return useMemo(() => {
-    const stats: Stats = {
-      difficulty: '',
-      cr: 0,
-      xp: 0,
-      xpAdjusted: 0,
-      count: 0,
-      each: 0,
-    };
+  const partySize = useMemo(() => {
+    return party.reduce((total, { count }) => total + count, 0);
+  }, [party]);
 
-    const partySize = party.reduce((total, { count }) => total + count, 0);
+  const baseStats = useMemo(() => {
+    return Object.values(encounter)
+      .reduce((acc, { monster: { cr, xp }, count }) => {
+        acc.cr += cr * count;
+        acc.xp += xp * count;
+        acc.count += count;
+        return acc;
+      }, { cr: 0, xp: 0, count: 0 });
+  }, [encounter]);
 
-    applyXP(stats, encounter);
-    applyMultiplier(partySize, stats);
-    applyDifficulty(stats, thresholds);
+  const xpAdjusted = useMemo(() => {
+    const modifiers = [1, 1.5, 2, 2.5, 3, 4];
 
-    stats.each = Math.ceil(stats.xpAdjusted / partySize);
+    let index = 0;
+    if (baseStats.count == 2) {
+      index = 1;
+    } else if (baseStats.count > 2 && baseStats.count < 7) {
+      index = 2;
+    } else if (baseStats.count > 6 && baseStats.count < 11) {
+      index = 3;
+    } else if (baseStats.count > 10 && baseStats.count < 15) {
+      index = 4;
+    } else if (baseStats.count > 14) {
+      index = 5;
+    }
 
-    return stats;
-  }, [encounter, party, thresholds]);
+    if (partySize < 3 && index < 5)
+      index++;
+    if (partySize > 5 && index > 0)
+      index--;
+
+    return baseStats.xp * modifiers[index];
+  }, [baseStats, partySize]);
+
+  const difficulty = useMemo(() => {
+    switch (true) {
+      case xpAdjusted < thresholds.easy:
+        return 'Trivial';
+      case xpAdjusted < thresholds.medium:
+        return 'Easy';
+      case xpAdjusted < thresholds.hard:
+        return 'Medium';
+      case xpAdjusted < thresholds.deadly:
+        return 'Hard';
+      default:
+        return 'Deadly';
+    }
+  }, [xpAdjusted, thresholds]);
+
+  return { ...baseStats, xpAdjusted, difficulty } as Stats;
 };
 
-const applyXP = (stats: Stats, encounter: Encounter) => {
-  Object.values(encounter).forEach(({ monster: { cr, xp }, count }) => {
-    stats.cr += cr * count;
-    stats.xp += xp * count;
-    stats.count += count;
-  });
-};
-
-const applyMultiplier = (partySize: number, stats: Stats) => {
-  const modifiers = [1, 1.5, 2, 2.5, 3, 4];
-
-  let index = 0;
-  if (stats.count == 2) {
-    index = 1;
-  } else if (stats.count > 2 && stats.count < 7) {
-    index = 2;
-  } else if (stats.count > 6 && stats.count < 11) {
-    index = 3;
-  } else if (stats.count > 10 && stats.count < 15) {
-    index = 4;
-  } else if (stats.count > 14) {
-    index = 5;
-  }
-
-  if (partySize < 3 && index < 5)
-    index++;
-  if (partySize > 5 && index > 0)
-    index--;
-
-  stats.xpAdjusted = stats.xp * modifiers[index];
-};
-
-const applyDifficulty = (stats: Stats, thresholds: Thresholds) => {
-  if (stats.xp < thresholds.easy) {
-    stats.difficulty = 'Trivial';
-  } else if (stats.xp < thresholds.medium) {
-    stats.difficulty = 'Easy';
-  } else if (stats.xp < thresholds.hard) {
-    stats.difficulty = 'Medium';
-  } else if (stats.xp < thresholds.deadly) {
-    stats.difficulty = 'Hard';
-  } else {
-    stats.difficulty = 'Deadly';
-  }
-};
+export default useStats;

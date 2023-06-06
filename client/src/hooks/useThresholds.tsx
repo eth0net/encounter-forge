@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Party } from '../models';
-import { Thresholds } from '../models/Thresholds';
+import Thresholds from '../models/Thresholds';
 
 export const useThresholds = (party: Party) => {
   return useMemo(() => {
@@ -41,3 +41,5 @@ const thresholds_table = [
   new Thresholds(2400, 4900, 7300, 10900, 30000),
   new Thresholds(2800, 5700, 8500, 12700, 40000),
 ];
+
+export default useThresholds;

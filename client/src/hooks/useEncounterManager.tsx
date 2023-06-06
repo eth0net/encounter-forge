@@ -59,7 +59,7 @@ export const useEncounterManager = () => {
     }
 
     setEncounter(encounter);
-  }
+  };
 
   return {
     encounter,

@@ -6,8 +6,8 @@ import { useMemo } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/NavBar';
-import { PocketBaseProvider } from "./contexts/PocketBaseProvider";
-import Forge from './pages/Forge';
+import PocketBaseProvider from "./contexts/PocketBaseProvider";
+import Forge from './routes/Forge';
 
 const pocketBase = new PocketBase('http://127.0.0.1:8090');
 

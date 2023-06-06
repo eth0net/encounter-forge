@@ -1,12 +1,14 @@
 import { useContext } from "react";
-import { PocketBaseContext } from "../contexts/PocketBaseContext";
+import PocketBaseContext from "../contexts/PocketBaseContext";
 
 export const usePocketBase = () => {
-  const client = useContext(PocketBaseContext);
+  const pb = useContext(PocketBaseContext);
 
-  if (!client) {
+  if (!pb) {
     throw new Error("usePocketBase must be used within a PocketBaseProvider");
   }
 
-  return client;
+  return pb;
 };
+
+export default usePocketBase;

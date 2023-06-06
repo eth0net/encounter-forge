@@ -1,4 +1,4 @@
-import { Button, Divider, Stack, Table, TableContainer, TablePagination, TextField } from '@mui/material';
+import { Button, Stack, Table, TableContainer, TablePagination, TextField } from '@mui/material';
 import { useMemo, useState } from "react";
 import { BestiaryManager } from '../../hooks/useBestiaryManager';
 import { EncounterManager } from '../../hooks/useEncounterManager';

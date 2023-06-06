@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import Monster from "../models/Monster";
-import { usePocketBase } from "./usePocketBase";
+import usePocketBase from "./usePocketBase";
 
 export const usePocketBaseMonsters = () => {
   const pb = usePocketBase();

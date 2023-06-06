@@ -1,7 +1,7 @@
 import { TableBody } from '@mui/material';
 import { useMemo } from 'react';
-import EncounterTableRow from './EncounterTableRow';
 import { EncounterManager } from '../../hooks/useEncounterManager';
+import EncounterTableRow from './EncounterTableRow';
 
 export const EncounterTableBody = ({ encounterManager }: EncounterTableBodyProps) => {
   const { encounter, addMonster, removeMonster } = encounterManager;

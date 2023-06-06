@@ -1,8 +1,8 @@
 import { Button, Stack, Table, TableContainer } from '@mui/material';
+import { PartyManager } from '../../hooks/usePartyManager';
 import Section from '../Section';
 import PartyTableBody from './PartyTableBody';
 import PartyTableHead from './PartyTableHead';
-import { PartyManager } from '../../hooks/usePartyManager';
 
 export const PartyTable = ({ flexGrow = 0, partyManager }: PartyTableProps) => {
   const { addGroup } = partyManager;
