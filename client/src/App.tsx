@@ -10,7 +10,7 @@ import PocketBaseProvider from "./contexts/PocketBaseProvider";
 import Creator from './routes/Creator';
 import Forge from './routes/Forge';
 
-const pocketBase = new PocketBase('http://127.0.0.1:8090');
+const pocketBase = new PocketBase(import.meta.env.VITE_POCKET_BASE_URL);
 
 const queryClient = new QueryClient();
 
