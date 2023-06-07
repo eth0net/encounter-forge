@@ -6,9 +6,9 @@ export const useBestiaryManager = (props: useBestiaryManagerProps) => {
   const { enable5eTools = false, search = '' } = props;
 
   const { monsters: m5e } = use5eToolsMonsters(enable5eTools);
-  const { monsters: mpb } = usePocketBaseMonsters();
+  const { query: qpb } = usePocketBaseMonsters();
 
-  const monsters = useMemo(() => [...m5e, ...mpb], [m5e, mpb]);
+  const monsters = useMemo(() => [...m5e, ...qpb.data], [m5e, qpb.data]);
 
   const filtered = useMemo(() => {
     return monsters.filter(monster => {

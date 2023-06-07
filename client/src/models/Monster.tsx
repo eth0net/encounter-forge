@@ -9,8 +9,9 @@ export class Monster {
   source: string;
   cr: number;
   xp: number;
+  shared: boolean;
 
-  constructor(from: SourceMonster | Record) {
+  constructor(from: SourceMonster | Record | MonsterProps) {
     const { name, source, cr } = from;
 
     if (Object.hasOwn(from, "id")) {
@@ -24,6 +25,13 @@ export class Monster {
     this.source = source;
     this.cr = this.parseCR(cr);
     this.xp = this.calculateXP();
+
+    if (Object.hasOwn(from, "shared")) {
+      const { shared } = from as Record;
+      this.shared = shared;
+    } else {
+      this.shared = true;
+    }
   }
 
   private parseCR(cr: cr): number {
@@ -82,6 +90,13 @@ export class Monster {
     console.error(`Unknown CR: ${this.cr} for monster ${this.id}`);
     return 0;
   }
+}
+
+export interface MonsterProps {
+  name: string;
+  source: string;
+  cr: number;
+  shared?: boolean;
 }
 
 export default Monster;

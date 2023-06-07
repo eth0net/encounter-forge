@@ -1,18 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import usePocketBase from "./usePocketBase";
 
 export const usePocketBaseAuth = () => {
-  const pb = usePocketBase();
-
-  const [token, setToken] = useState(pb.authStore.token);
-  const [model, setModel] = useState(pb.authStore.model);
-
-  useEffect(() => {
-    pb.authStore.onChange((token, model) => {
-      setToken(token);
-      setModel(model);
-    });
-  });
+  const { pb, token, model } = usePocketBase();
 
   const authWithDiscord = useCallback(async () => {
     return await pb

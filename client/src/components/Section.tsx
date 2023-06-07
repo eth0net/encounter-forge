@@ -3,7 +3,7 @@ import { Paper, Stack, Typography } from '@mui/material';
 export const Section = ({ title, children, paperProps, stackProps }: SectionProps) => {
   return (
     <Paper elevation={4} {...paperProps}>
-      <Stack spacing={1} p={2} {...stackProps}>
+      <Stack spacing={2} p={2} {...stackProps}>
         <Typography variant='h5'>{title}</Typography>
         {children}
       </Stack>

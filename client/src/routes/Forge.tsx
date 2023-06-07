@@ -30,34 +30,32 @@ export const Forge = () => {
   };
 
   return (
-    <>
-      <Stack direction='row' spacing={4} useFlexGap justifyContent='center' flexWrap='wrap'>
-        <Stack spacing={4} minWidth={300}>
-          <PartyTable flexGrow={1} partyManager={partyManager} />
-          <ThresholdsTable
-            thresholds={thresholds}
-            generateEncounter={generateEncounter}
-          />
-        </Stack>
-
-        <Stack spacing={4} minWidth={300}>
-          <EncounterTable flexGrow={1} encounterManager={encounterManager} />
-          <DetailsTable stats={stats} />
-        </Stack>
-
-        <Stack spacing={4} minWidth={300}>
-          <Bestiary
-            bestiaryManager={bestiaryManager}
-            encounterManager={encounterManager}
-            enable5eTools={enable5eTools}
-            setEnable5eTools={setEnable5eTools}
-            search={search}
-            setSearch={setSearch}
-            flexGrow={1}
-          />
-        </Stack>
+    <Stack direction='row' spacing={4} useFlexGap justifyContent='center' flexWrap='wrap'>
+      <Stack spacing={4} minWidth={300}>
+        <PartyTable flexGrow={1} partyManager={partyManager} />
+        <ThresholdsTable
+          thresholds={thresholds}
+          generateEncounter={generateEncounter}
+        />
       </Stack>
-    </>
+
+      <Stack spacing={4} minWidth={300}>
+        <EncounterTable flexGrow={1} encounterManager={encounterManager} />
+        <DetailsTable stats={stats} />
+      </Stack>
+
+      <Stack spacing={4} minWidth={300}>
+        <Bestiary
+          bestiaryManager={bestiaryManager}
+          encounterManager={encounterManager}
+          enable5eTools={enable5eTools}
+          setEnable5eTools={setEnable5eTools}
+          search={search}
+          setSearch={setSearch}
+          flexGrow={1}
+        />
+      </Stack>
+    </Stack>
   );
 };
 
